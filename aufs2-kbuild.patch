@@ -1,10 +1,10 @@
-aufs2 kbuild patch for linux-2.6.33
+aufs2 kbuild patch for linux-2.6.
 
 diff --git a/fs/Kconfig b/fs/Kconfig
-index 64d44ef..3e1f2f0 100644
+index 5f85b59..6ee7cf8 100644
 --- a/fs/Kconfig
 +++ b/fs/Kconfig
-@@ -188,6 +188,7 @@ source "fs/romfs/Kconfig"
+@@ -189,6 +189,7 @@ source "fs/romfs/Kconfig"
  source "fs/sysv/Kconfig"
  source "fs/ufs/Kconfig"
  source "fs/exofs/Kconfig"
@@ -13,16 +13,16 @@ index 64d44ef..3e1f2f0 100644
  endif # MISC_FILESYSTEMS
  
 diff --git a/fs/Makefile b/fs/Makefile
-index af6d047..dba1ce1 100644
+index 97f340f..9a631ef 100644
 --- a/fs/Makefile
 +++ b/fs/Makefile
-@@ -124,3 +124,4 @@ obj-$(CONFIG_OCFS2_FS)		+= ocfs2/
- obj-$(CONFIG_BTRFS_FS)		+= btrfs/
+@@ -126,3 +126,4 @@ obj-$(CONFIG_BTRFS_FS)		+= btrfs/
  obj-$(CONFIG_GFS2_FS)           += gfs2/
  obj-$(CONFIG_EXOFS_FS)          += exofs/
+ obj-$(CONFIG_CEPH_FS)		+= ceph/
 +obj-$(CONFIG_AUFS_FS)           += aufs/
 diff --git a/include/linux/Kbuild b/include/linux/Kbuild
-index 756f831..4b593cb 100644
+index e2ea0b2..b5a1c6e 100644
 --- a/include/linux/Kbuild
 +++ b/include/linux/Kbuild
 @@ -34,6 +34,7 @@ header-y += atmppp.h

@@ -40,7 +40,7 @@ struct attribute *sysaufs_si_attrs[] = {
 	NULL,
 };
 
-static struct sysfs_ops au_sbi_ops = {
+static const struct sysfs_ops au_sbi_ops = {
 	.show   = sysaufs_si_show
 };
 

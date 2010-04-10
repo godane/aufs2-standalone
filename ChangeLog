@@ -233,6 +233,14 @@ Date:   Sat Mar 20 16:56:13 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 98a42f576eaa1136794544e57404c492cbf8a8fe
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Mar 18 20:04:08 2010 +0900
+
+    aufs: support sysfs_attr_init()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit dece7f0fce421044faa9ebd4428bfb8569236653
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Mar 18 01:58:29 2010 +0900
@@ -274,6 +282,24 @@ Date:   Mon Mar 15 19:54:08 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit dacdbec082028cc66b5331b7967be2d1e31a7c4a
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 15 16:49:33 2010 +0900
+
+    aufs: tiny, make au_sbi_ops const
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 00f3b21cd43796db130da7d3cd1a2e001cf7cae8
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Mar 11 18:46:24 2010 +0900
+
+    aufs: tiny, comment for making au_sbi_ops const
+    
+    Let's wait until linux/include/kobject.h declear it.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 7172ca48bc5c49485b16cb6f76bfa11ee56fa3d8
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Mar 11 18:17:26 2010 +0900
@@ -306,6 +332,30 @@ Date:   Wed Mar 10 03:44:14 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 86cbeae41a2ee8f591986132055295c7d29e37d9
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 10 02:12:21 2010 +0900
+
+    aufs: support s_export_op->commit_data()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 8c88f7f0ef765e75dc90d2c8c85c8add84c42b0d
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 10 02:11:59 2010 +0900
+
+    aufs: convert the parameter of break_lease()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit ccedf8b6a81c8a61bd1b59c889f030f32f96c864
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 9 22:20:06 2010 +0900
+
+    aufs: simplify au_test_subdir() and call path_is_under()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 8200bcab57f364bcf4f695bb59910fe921d9bd88
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Mar 9 04:52:38 2010 +0900
@@ -314,6 +364,28 @@ Date:   Tue Mar 9 04:52:38 2010 +0900
     
     debug_mutex_set_owner() was renamed to mutex_set_owner(), and becase
     static inlined function.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 306c22a57155ff5c4055908d74ff568f53fadf92
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 9 03:26:49 2010 +0900
+
+    aufs stdalone: begin supporting linux-2.6.24-rcN, stop exporting vfsmount_lock
+    
+    A new function was introduced to linux/fs/namespace.c, iterate_mounts().
+    Now fs/aufs/export.c can replace vfsmount_lock by iterate_mounts().
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 6433436bfa89498ec037462300869b42d096748c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 9 03:23:50 2010 +0900
+
+    aufs: begin supporting linux-2.6.24-rcN, call iterate_mounts()
+    
+    A new function was introduced to linux/fs/namespace.c, iterate_mounts().
+    Now fs/aufs/export.c can replace vfsmount_lock by iterate_mounts().
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -480,6 +552,14 @@ Date:   Mon Mar 1 17:52:50 2010 +0900
     sure whether it is false positive or not in real world.
     
     Reported-by: "James ." <jazzrz86@gmail.com>
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 33c55ebed9e3e94577fcb76528d8e80a85a7c39b
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 1 16:57:30 2010 +0900
+
+    aufs: version string for aufs2-34-rcN
+    
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
 commit 68920bede35eec3aa1df78ca69243b87b8688d25
