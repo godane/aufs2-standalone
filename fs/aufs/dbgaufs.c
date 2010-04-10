@@ -110,7 +110,7 @@ static int dbgaufs_xib_open(struct inode *inode, struct file *file)
 	return err;
 }
 
-static struct file_operations dbgaufs_xib_fop = {
+static const struct file_operations dbgaufs_xib_fop = {
 	.open		= dbgaufs_xib_open,
 	.release	= dbgaufs_xi_release,
 	.read		= dbgaufs_xi_read
@@ -154,7 +154,7 @@ static int dbgaufs_xino_open(struct inode *inode, struct file *file)
 	return err;
 }
 
-static struct file_operations dbgaufs_xino_fop = {
+static const struct file_operations dbgaufs_xino_fop = {
 	.open		= dbgaufs_xino_open,
 	.release	= dbgaufs_xi_release,
 	.read		= dbgaufs_xi_read
@@ -225,7 +225,7 @@ static int dbgaufs_xigen_open(struct inode *inode, struct file *file)
 	return err;
 }
 
-static struct file_operations dbgaufs_xigen_fop = {
+static const struct file_operations dbgaufs_xigen_fop = {
 	.open		= dbgaufs_xigen_open,
 	.release	= dbgaufs_xi_release,
 	.read		= dbgaufs_xi_read

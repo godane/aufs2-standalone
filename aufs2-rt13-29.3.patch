@@ -1,0 +1,40 @@
+commit 54c23554f78df6dd4157d81a89173d78ff789a7d
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue May 19 01:04:53 2009 +0900
+
+    aufs: keep rt rw_sem
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 3e0717d0f83b36afb57f20fe7ddf17757a939893
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon May 18 23:50:42 2009 +0900
+
+    Revert "aufs: convert rw_sema to compat_rw_sema"
+    
+    This reverts commit 45ccf8fe86646bd7dcfb4248b8b75359957cec8d.
+
+commit 45ccf8fe86646bd7dcfb4248b8b75359957cec8d
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon May 18 23:34:19 2009 +0900
+
+    aufs: convert rw_sema to compat_rw_sema
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+diff --git a/fs/aufs/rwsem.h b/fs/aufs/rwsem.h
+index 7f4c399..1150837 100644
+--- a/fs/aufs/rwsem.h
++++ b/fs/aufs/rwsem.h
+@@ -56,7 +56,11 @@ struct au_rwsem {
+ #endif /* CONFIG_AUFS_DEBUG */
+ 
+ /* to debug easier, do not make them inlined functions */
+-#define AuRwMustNoWaiters(rw)	AuDebugOn(!list_empty(&(rw)->rwsem.wait_list))
++#ifdef CONFIG_PREEMPT_RT
++#define AuRwMustNoWaiters(rw)	AuDebugOn(!plist_head_empty(&(rw)->lock.wait_list))
++#else
++#define AuRwMustNoWaiters(rw)	AuDebugOn(!list_empty(&(rw)->wait_list))
++#endif
+ /* rwsem_is_locked() is unusable */
+ #define AuRwMustReadLock(rw)	AuDebugOn(atomic_read(&(rw)->rcnt) <= 0)
+ #define AuRwMustWriteLock(rw)	AuDebugOn(atomic_read(&(rw)->wcnt) <= 0)

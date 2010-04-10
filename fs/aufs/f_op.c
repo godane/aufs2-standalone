@@ -888,7 +888,7 @@ static ssize_t aufs_sendpage(struct file *file, struct page *page, int offset,
 
 /* ---------------------------------------------------------------------- */
 
-struct file_operations aufs_file_fop = {
+const struct file_operations aufs_file_fop = {
 	/*
 	 * while generic_file_llseek/_unlocked() don't use BKL,
 	 * don't use it since it operates file->f_mapping->host.
@@ -900,6 +900,9 @@ struct file_operations aufs_file_fop = {
 	.write		= aufs_write,
 	.aio_read	= aufs_aio_read,
 	.aio_write	= aufs_aio_write,
+#ifdef CONFIG_AUFS_POLL
+	.poll		= aufs_poll,
+#endif
 	.unlocked_ioctl	= aufs_ioctl_nondir,
 	.mmap		= aufs_mmap,
 	.open		= aufs_open_nondir,

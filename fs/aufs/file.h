@@ -26,6 +26,7 @@
 #ifdef __KERNEL__
 
 #include <linux/fs.h>
+#include <linux/poll.h>
 #include <linux/aufs_type.h>
 #include "rwsem.h"
 
@@ -74,6 +75,11 @@ int au_ready_to_write(struct file *file, loff_t len, struct au_pin *pin);
 int au_reval_and_lock_fdi(struct file *file, int (*reopen)(struct file *file),
 			  int wlock);
 
+/* poll.c */
+#ifdef CONFIG_AUFS_POLL
+unsigned int aufs_poll(struct file *file, poll_table *wait);
+#endif
+
 #ifdef CONFIG_AUFS_BR_HFSPLUS
 /* hfsplus.c */
 struct file *au_h_open_pre(struct dentry *dentry, aufs_bindex_t bindex);
@@ -91,7 +97,7 @@ AuStubVoid(au_h_open_post, struct dentry *dentry, aufs_bindex_t bindex,
 #endif
 
 /* f_op.c */
-extern struct file_operations aufs_file_fop;
+extern const struct file_operations aufs_file_fop;
 int aufs_flush(struct file *file, fl_owner_t id);
 int au_do_open_nondir(struct file *file, int flags);
 int aufs_release_nondir(struct inode *inode __maybe_unused, struct file *file);

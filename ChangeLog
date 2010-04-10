@@ -253,6 +253,14 @@ Date:   Sat Mar 6 18:01:08 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 99a3d3208f5c445134c2015166e04e1c35be6e88
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 5 09:07:58 2010 +0900
+
+    aufs: tiny, fix a manual merge failure
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 9dedd0a621f2e6a51615dc38139b825e56ad4547
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Mar 5 04:01:54 2010 +0900
@@ -438,6 +446,17 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Feb 5 23:08:57 2010 +0900
 
     aufs: cosmetic clean-up for i_op.c
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit edc355ecd8b988cbe13b7fdf7310096ed10c2f5f
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Feb 5 01:54:33 2010 +0900
+
+    aufs: begin supporting btrfs
+    
+    Btrfs doesn't store the correct value to i_blocks, and doesn't check the
+    maximum link count.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -628,6 +647,14 @@ Date:   Fri Jan 8 13:28:04 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 086ef320ff863e7733e7ae8b9eead31a67d483d5
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jan 6 17:36:41 2010 +0900
+
+    aufs: tiny, copyright 2010
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit c127eb8aeeb58e8899abffe377ae230f3d4d3c9c
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jan 6 17:21:08 2010 +0900
@@ -784,6 +811,16 @@ Date:   Wed Dec 16 23:39:57 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 4ed6a2155d84506e20b179a1fdba4e8984d47538
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Dec 12 22:45:36 2009 +0900
+
+    aufs: support special file, f_op->dir_notify is removed (again)
+    
+    Simply follow the change made in upstream.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 8b87aec2f10432aabbe9780bfabf26fb83284eed
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Dec 12 21:18:42 2009 +0900
@@ -810,6 +847,16 @@ Date:   Sat Dec 12 20:48:12 2009 +0900
     
     Revise simpley.
     When it exists on a writable branch, stop copying-up.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 1d176b4be9b90ed2f332d12b28341bc196b4aeb1
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Dec 11 16:13:45 2009 +0900
+
+    aufs: support special file, f_op->dir_notify is removed
+    
+    Simply follow the change made in upstream.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1149,6 +1196,17 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Sep 29 17:10:49 2009 +0900
 
     aufs: tiny, make diff(1) quiet
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 4edce1132b866e3435fdcf7c0708d8abf64c803e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Sep 29 01:37:55 2009 +0900
+
+    aufs: /sys/fs/aufs/config for newer config
+    
+    For standalone version only, a new entry /sys/fs/aufs/config.
+    aufs2-29 has some new configurations.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1993,6 +2051,20 @@ Date:   Sat Jul 11 00:48:48 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 3f0532e85ec40d117c6ff31e704dc1b5866b5a66
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Jul 9 13:54:43 2009 +0900
+
+    aufs: aufs_poll() strikes back
+    
+    FUSE implemented ->poll() in linux-2.6.29, so aufs_poll() came back with
+    two new configurations AUFS_BR_FUSE and AUFS_POLL and a new file
+    fs/aufs/poll.c.
+    While AUFS_BR_FUSE is selectable by users, AUFS_POLL is internal and
+    hidden from users.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit edd06b50ae852e073922db65f0a6e7134b338f02
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jul 8 20:10:28 2009 +0900
@@ -2062,6 +2134,15 @@ Date:   Wed Jun 24 19:57:17 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit c1d75ee0b58940c827fc0894446d8d7e8f68afa1
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jun 24 16:29:53 2009 +0900
+
+    Revert "aufs standalone: export symbols for aufs module only"
+    
+    This reverts commit c5ab5f1c137639ac3ac91fbefe497372abfbf6c4.
+    It was a bad approach. Now export symbols unconditionally.
+
 commit d45185f807f68eec3749b6f021414f54a160c38e
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jun 24 16:13:50 2009 +0900
@@ -2077,6 +2158,14 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jun 20 15:48:26 2009 +0900
 
     aufs: tiny, revise how to build
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit c5ab5f1c137639ac3ac91fbefe497372abfbf6c4
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Jun 19 17:47:08 2009 +0900
+
+    aufs standalone: export symbols for aufs module only
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2275,6 +2364,14 @@ Date:   Tue May 12 15:19:26 2009 -0700
     Joonwoo
     
     Signed-off-by: Joonwoo Park <joonwpark81@gmail.com>
+
+commit d2c3e73ea8b469cd5b3af12da89ab42cc8639af5
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue May 12 12:00:43 2009 +0900
+
+    aufs: tiny, missing header file
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
 commit 83c15942cd143f6206460500f24f95a7fa3ff1f9
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
@@ -2551,6 +2648,14 @@ Date:   Tue Apr 7 07:32:37 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 7517ad361f50e4955e92a7c24856d13598d50a80
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Apr 4 01:46:25 2009 +0900
+
+    aufs: export security_path functions
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit b55a0733f04437216fcc09f32b1496d485f99a83
 Author: Ryousei Takano <ryousei@psptest00.localdomain>
 Date:   Fri Apr 3 17:44:19 2009 +0900
@@ -2616,6 +2721,14 @@ Date:   Wed Apr 1 12:36:51 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 19c777af2bef18f1cb9b134fed5337e869230622
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 31 01:13:20 2009 +0900
+
+    aufs: tiny: constantify struct file_operations
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit ecb8ebcd9d12bb16bd963eb927583ec10dbbf37c
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Mar 31 00:38:05 2009 +0900
@@ -2672,6 +2785,21 @@ Date:   Mon Mar 30 13:39:23 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 0288e1ef929bb5211347a96324ae1945054d37b1
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sun Mar 29 01:07:45 2009 +0900
+
+    aufs: tiny: modify a message string
+    
+    There still left a problem of lookup without locking the parent dir in
+    2.6.29, which is the commit 14f7dd632011bb89c035722edd6ea0d90ca6b078
+    "[PATCH] Copy XFS readdir hack into nfsd code".
+    See the thread begin with
+    <http://marc.info/?l=linux-kernel&m=123747448209411&w=2>
+    in detail.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit c32bf1947381120410d25a75f04c531dbf3cdb7f
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Mar 27 02:19:13 2009 +0900
@@ -2699,6 +2827,16 @@ Date:   Wed Mar 25 23:36:09 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit d11b13a4369b3934b9f2d3089602b321a02c55f8
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 25 23:27:11 2009 +0900
+
+    aufs: support linux-2.6.29
+    
+    Append the struct cred* paramter to dentry_open().
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit e3d592b19c2aac6c95d580545987bfd870eaacdf
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Mar 25 22:53:40 2009 +0900
@@ -2723,6 +2861,14 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Mar 25 02:48:39 2009 +0900
 
     aufs: bugfix: call mntget() before unlock vfsmount_lock
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 31ffd4af435be3f51288864071176e380428151f
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 25 02:32:56 2009 +0900
+
+    aufs: tiny: fix version srting
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -3169,6 +3315,22 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Mar 4 14:17:17 2009 +0900
 
     workaround for fmode_t
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 8cf6e539dee0bc3475c369fb47dea8788308524f
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 2 12:01:32 2009 +0900
+
+    support linux-2.6.29-rcN
+    
+    - replace do_fsync() by vfs_fsync().
+    - add credential to dentry_open().
+    - support squashfs, btrfs and xenfs (untested).
+    - eliminate the test for inode->i_op.
+    - replace current->fsuid by current_fsuid() call.
+    - support security_path_*() functions.
+    - version string.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 

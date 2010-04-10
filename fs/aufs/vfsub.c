@@ -21,6 +21,7 @@
  */
 
 #include <linux/namei.h>
+#include <linux/security.h>
 #include <linux/splice.h>
 #include <linux/uaccess.h>
 #include "aufs.h"
@@ -146,8 +147,16 @@ void vfsub_unlock_rename(struct dentry *d1, struct au_hinode *hdir1,
 int vfsub_create(struct inode *dir, struct path *path, int mode)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_mknod(path, path->dentry, mode, 0);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	if (au_test_fs_null_nd(dir->i_sb))
 		err = vfs_create(dir, path->dentry, mode, NULL);
@@ -178,14 +187,23 @@ int vfsub_create(struct inode *dir, struct path *path, int mode)
 		/*ignore*/
 	}
 
+ out:
 	return err;
 }
 
 int vfsub_symlink(struct inode *dir, struct path *path, const char *symname)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_symlink(path, path->dentry, symname);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	err = vfs_symlink(dir, path->dentry, symname);
 	if (!err) {
@@ -199,14 +217,24 @@ int vfsub_symlink(struct inode *dir, struct path *path, const char *symname)
 		}
 		/*ignore*/
 	}
+
+ out:
 	return err;
 }
 
 int vfsub_mknod(struct inode *dir, struct path *path, int mode, dev_t dev)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_mknod(path, path->dentry, mode, dev);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	err = vfs_mknod(dir, path->dentry, mode, dev);
 	if (!err) {
@@ -220,6 +248,8 @@ int vfsub_mknod(struct inode *dir, struct path *path, int mode, dev_t dev)
 		}
 		/*ignore*/
 	}
+
+ out:
 	return err;
 }
 
@@ -236,12 +266,20 @@ static int au_test_nlink(struct inode *inode)
 int vfsub_link(struct dentry *src_dentry, struct inode *dir, struct path *path)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
 
 	err = au_test_nlink(src_dentry->d_inode);
 	if (unlikely(err))
 		return err;
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_link(src_dentry, path, path->dentry);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	lockdep_off();
 	err = vfs_link(src_dentry, dir, path->dentry);
@@ -260,6 +298,8 @@ int vfsub_link(struct dentry *src_dentry, struct inode *dir, struct path *path)
 		}
 		/*ignore*/
 	}
+
+ out:
 	return err;
 }
 
@@ -268,12 +308,20 @@ int vfsub_rename(struct inode *src_dir, struct dentry *src_dentry,
 {
 	int err;
 	struct path tmp = {
-		.dentry	= path->dentry->d_parent,
 		.mnt	= path->mnt
 	};
+	struct dentry *d;
 
 	IMustLock(dir);
 	IMustLock(src_dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	tmp.dentry = src_dentry->d_parent;
+	err = security_path_rename(&tmp, src_dentry, path, path->dentry);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	lockdep_off();
 	err = vfs_rename(src_dir, src_dentry, dir, path->dentry);
@@ -281,6 +329,7 @@ int vfsub_rename(struct inode *src_dir, struct dentry *src_dentry,
 	if (!err) {
 		int did;
 
+		tmp.dentry = d->d_parent;
 		vfsub_update_h_iattr(&tmp, &did);
 		if (did) {
 			tmp.dentry = src_dentry;
@@ -290,14 +339,24 @@ int vfsub_rename(struct inode *src_dir, struct dentry *src_dentry,
 		}
 		/*ignore*/
 	}
+
+ out:
 	return err;
 }
 
 int vfsub_mkdir(struct inode *dir, struct path *path, int mode)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_mkdir(path, path->dentry, mode);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	err = vfs_mkdir(dir, path->dentry, mode);
 	if (!err) {
@@ -311,14 +370,24 @@ int vfsub_mkdir(struct inode *dir, struct path *path, int mode)
 		}
 		/*ignore*/
 	}
+
+ out:
 	return err;
 }
 
 int vfsub_rmdir(struct inode *dir, struct path *path)
 {
 	int err;
+	struct dentry *d;
 
 	IMustLock(dir);
+
+	d = path->dentry;
+	path->dentry = d->d_parent;
+	err = security_path_rmdir(path, path->dentry);
+	path->dentry = d;
+	if (unlikely(err))
+		goto out;
 
 	lockdep_off();
 	err = vfs_rmdir(dir, path->dentry);
@@ -332,6 +401,7 @@ int vfsub_rmdir(struct inode *dir, struct path *path)
 		vfsub_update_h_iattr(&tmp, /*did*/NULL); /*ignore*/
 	}
 
+ out:
 	return err;
 }
 
@@ -450,6 +520,8 @@ int vfsub_trunc(struct path *h_path, loff_t length, unsigned int attr,
 	}
 
 	err = locks_verify_truncate(h_inode, h_file, length);
+	if (!err)
+		err = security_path_truncate(h_path, length, attr);
 	if (!err) {
 		lockdep_off();
 		err = do_truncate(h_path->dentry, length, attr, h_file);
@@ -610,6 +682,12 @@ static void call_unlink(void *args)
 				      && atomic_read(&d->d_count) == 1);
 
 	IMustLock(a->dir);
+
+	a->path->dentry = d->d_parent;
+	*a->errp = security_path_unlink(a->path, d);
+	a->path->dentry = d;
+	if (unlikely(*a->errp))
+		return;
 
 	if (!stop_sillyrename)
 		dget(d);

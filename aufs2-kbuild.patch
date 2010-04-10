@@ -1,29 +1,28 @@
-aufs2 kbuild patch for linux-2.6.28
+aufs2 kbuild patch for linux-2.6.29
 
 diff --git a/fs/Kconfig b/fs/Kconfig
-index 522469a..6ef091b 100644
+index 93945dd..75156dd 100644
 --- a/fs/Kconfig
 +++ b/fs/Kconfig
-@@ -1122,6 +1122,8 @@ config UFS_DEBUG
- 	  Y here.  This will result in _many_ additional debugging messages to be
- 	  written to the system log.
- 
+@@ -222,6 +222,7 @@ source "fs/qnx4/Kconfig"
+ source "fs/romfs/Kconfig"
+ source "fs/sysv/Kconfig"
+ source "fs/ufs/Kconfig"
 +source "fs/aufs/Kconfig"
-+
- endmenu
  
- menuconfig NETWORK_FILESYSTEMS
+ endif # MISC_FILESYSTEMS
+ 
 diff --git a/fs/Makefile b/fs/Makefile
-index d9f8afe..1f206a2 100644
+index dc20db3..a4e9a65 100644
 --- a/fs/Makefile
 +++ b/fs/Makefile
-@@ -122,3 +122,4 @@ obj-$(CONFIG_HPPFS)		+= hppfs/
- obj-$(CONFIG_DEBUG_FS)		+= debugfs/
+@@ -124,3 +124,4 @@ obj-$(CONFIG_DEBUG_FS)		+= debugfs/
  obj-$(CONFIG_OCFS2_FS)		+= ocfs2/
+ obj-$(CONFIG_BTRFS_FS)		+= btrfs/
  obj-$(CONFIG_GFS2_FS)           += gfs2/
 +obj-$(CONFIG_AUFS_FS)           += aufs/
 diff --git a/include/linux/Kbuild b/include/linux/Kbuild
-index e531783..14ecb7c 100644
+index 106c3ba..d0c7262 100644
 --- a/include/linux/Kbuild
 +++ b/include/linux/Kbuild
 @@ -34,6 +34,7 @@ header-y += atmppp.h

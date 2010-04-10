@@ -1,0 +1,76 @@
+commit bdce7150d74fa109bc929bdd9a83294411f6b9d9
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 15 21:39:05 2009 +0900
+
+    aufs: testing RealTime patch for 29.4
+    
+    After
+    www.kernel.org/pub/linux/kernel/projects/rt/older/patch-2.6.29.4-rt19.bz2,
+    apply this.
+    See also this and its thread.
+    <http://sourceforge.net/mailarchive/forum.php?thread_name=1ee0ff290907090434q333c92f2p5e18c22ff445f543%40mail.gmail.com&forum_name=aufs-users>
+    
+    Convert every 'struct rw_semaphore' to 'struct compat_rw_semaphore'.
+    Still I am unsure what the best way is to support the realtime-ness.
+    To apply this patch, you need to revert the aufs2-rt13-29.3.patch.
+    
+    Reported-by: Daniel Vidal <danielvidalchornet@gmail.com>
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 1c375c0f5078c456bbadfa71197b733d63316989
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Jul 13 23:56:43 2009 +0900
+
+    aufs: support www.kernel.org/pub/linux/kernel/projects/rt/older/patch-2.6.29.4-rt19.bz2
+    
+    Convert every 'struct rw_semaphore' to 'struct compat_rw_semaphore'.
+    Still I am unsure what the best way is to support the realtime-ness.
+    To apply this patch, you need to revert the aufs2-rt13-29.3.patch.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 29af5136171e7f2b64266ebecf8b2cd81fa78c1b
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Jul 9 23:39:06 2009 +0900
+
+    aufs: support linux-2.6.29.4, ->page_mkwrite() paramter
+    
+    Convert the type of the paramter.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+diff --git a/fs/aufs/f_op.c b/fs/aufs/f_op.c
+index 28a6965..1fead86 100644
+--- a/fs/aufs/f_op.c
++++ b/fs/aufs/f_op.c
+@@ -419,7 +419,7 @@ static int aufs_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
+ 	return err;
+ }
+ 
+-static int aufs_page_mkwrite(struct vm_area_struct *vma, struct page *page)
++static int aufs_page_mkwrite(struct vm_area_struct *vma, struct vm_fault *vmf)
+ {
+ 	int err;
+ 	static DECLARE_WAIT_QUEUE_HEAD(wq);
+@@ -434,7 +434,7 @@ static int aufs_page_mkwrite(struct vm_area_struct *vma, struct page *page)
+ 
+ 	mutex_lock(&finfo->fi_vm_mtx);
+ 	vma->vm_file = h_file;
+-	err = finfo->fi_h_vm_ops->page_mkwrite(vma, page);
++	err = finfo->fi_h_vm_ops->page_mkwrite(vma, vmf);
+ 	au_reset_file(vma, file);
+ 	mutex_unlock(&finfo->fi_vm_mtx);
+ 	wake_up(&wq);
+diff --git a/fs/aufs/rwsem.h b/fs/aufs/rwsem.h
+index 7f4c399..28c6bf9 100644
+--- a/fs/aufs/rwsem.h
++++ b/fs/aufs/rwsem.h
+@@ -29,7 +29,7 @@
+ #include "debug.h"
+ 
+ struct au_rwsem {
+-	struct rw_semaphore	rwsem;
++	struct compat_rw_semaphore	rwsem;
+ #ifdef CONFIG_AUFS_DEBUG
+ 	/* just for debugging, not almighty counter */
+ 	atomic_t		rcnt, wcnt;

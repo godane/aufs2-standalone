@@ -11,11 +11,13 @@ CONFIG_AUFS_RDU =
 CONFIG_AUFS_SP_IATTR =
 CONFIG_AUFS_SHWH =
 CONFIG_AUFS_BR_RAMFS =
+CONFIG_AUFS_BR_FUSE =
 CONFIG_AUFS_BR_HFSPLUS =
 CONFIG_AUFS_DEBUG = y
 CONFIG_AUFS_MAGIC_SYSRQ =
 CONFIG_AUFS_BDEV_LOOP =
 CONFIG_AUFS_INO_T_64 =
+CONFIG_AUFS_POLL =
 
 ########################################
 
@@ -34,6 +36,7 @@ $(foreach i, BRANCH_MAX_127 BRANCH_MAX_511 BRANCH_MAX_1023 \
 	SP_IATTR \
 	SHWH \
 	BR_RAMFS \
+	BR_FUSE POLL \
 	BR_HFSPLUS \
 	DEBUG MAGIC_SYSRQ \
 	BDEV_LOOP, \
@@ -87,5 +90,21 @@ $(error ino_t on S390 is not 64bit)
 endif
 else
 $(error ino_t is not 64bit)
+endif
+endif
+
+ifdef CONFIG_AUFS_POLL
+ifndef CONFIG_AUFS_BR_FUSE
+# this is not an error
+$(warning AUFS_POLL is enabled but AUFS_BR_FUSE)
+endif
+else ifdef CONFIG_AUFS_BR_FUSE
+$(error AUFS_POLL is disabled but AUFS_BR_FUSE)
+endif
+
+ifdef CONFIG_AUFS_BR_FUSE
+ifndef CONFIG_FUSE_FS
+# this is not an error
+$(warning AUFS_BR_FUSE is enabled but FUSE_FS)
 endif
 endif

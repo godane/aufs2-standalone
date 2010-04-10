@@ -50,7 +50,6 @@ static int h_permission(struct inode *h_inode, int mask,
 	if ((write_mask && !au_br_writable(brperm))
 	    || (au_test_nfs(h_inode->i_sb) && S_ISDIR(h_inode->i_mode)
 		&& write_mask && !(mask & MAY_READ))
-	    || !h_inode->i_op
 	    || !h_inode->i_op->permission) {
 		/* AuLabel(generic_permission); */
 		err = generic_permission(h_inode, mask, NULL);
@@ -150,7 +149,7 @@ static struct dentry *aufs_lookup(struct inode *dir, struct dentry *dentry,
 		IMustLock(dir);
 	else
 		WARN_ONCE(!mutex_is_locked(&dir->i_mutex),
-			  "a known problem of NFSD readdir in 2.6.28\n");
+			  "a known problem of NFSD readdir since 2.6.28\n");
 
 	sb = dir->i_sb;
 	si_read_lock(sb, AuLock_FLUSH);
