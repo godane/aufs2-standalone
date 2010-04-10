@@ -1,0 +1,13 @@
+diff --git a/fs/aufs/f_op.c b/fs/aufs/f_op.c
+index 80bf30f..d716536 100644
+--- a/fs/aufs/f_op.c
++++ b/fs/aufs/f_op.c
+@@ -445,7 +445,7 @@ static int aufs_mmap(struct file *file, struct vm_area_struct *vma)
+ 		di_downgrade_lock(dentry, AuLock_IR);
+ 
+ 	h_file = au_h_fptr(file, au_fbstart(file));
+-	if (au_test_fs_bad_mapping(h_file->f_dentry->d_sb)) {
++	if (1 || au_test_fs_bad_mapping(h_file->f_dentry->d_sb)) {
+ 		/*
+ 		 * by this assignment, f_mapping will differs from aufs inode
+ 		 * i_mapping.
