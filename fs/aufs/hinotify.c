@@ -62,7 +62,7 @@ static void au_hin_free(struct au_hnotify *hn)
 		err = inotify_rm_watch(au_hin_handle, &hn->hn_watch);
 	if (unlikely(err))
 		/* it means the watch is already removed */
-		AuWarn("failed inotify_rm_watch() %d\n", err);
+		pr_warning("failed inotify_rm_watch() %d\n", err);
 }
 
 /* ---------------------------------------------------------------------- */

@@ -36,7 +36,7 @@ void au_store_oflag(struct nameidata *nd, struct inode *inode)
 	if (nd
 	    /* && !(nd->flags & LOOKUP_CONTINUE) */
 	    && (nd->flags & LOOKUP_OPEN)
-	    && (nd->intent.open.flags & FMODE_EXEC)
+	    && (nd->intent.open.flags & vfsub_fmode_to_uint(FMODE_EXEC))
 	    && inode
 	    && S_ISREG(inode->i_mode)) {
 		/* suppress a warning in lp64 */
@@ -563,12 +563,6 @@ static int aufs_readpage(struct file *file __maybe_unused, struct page *page)
 
 /* they will never be called. */
 #ifdef CONFIG_AUFS_DEBUG
-static int aufs_prepare_write(struct file *file, struct page *page,
-			      unsigned from, unsigned to)
-{ AuUnsupport(); return 0; }
-static int aufs_commit_write(struct file *file, struct page *page,
-			     unsigned from, unsigned to)
-{ AuUnsupport(); return 0; }
 static int aufs_write_begin(struct file *file, struct address_space *mapping,
 			    loff_t pos, unsigned len, unsigned flags,
 			    struct page **pagep, void **fsdata)
@@ -614,8 +608,6 @@ const struct address_space_operations aufs_aop = {
 	/* no writepages, because of writepage */
 	.set_page_dirty		= aufs_set_page_dirty,
 	/* no readpages, because of readpage */
-	.prepare_write		= aufs_prepare_write,
-	.commit_write		= aufs_commit_write,
 	.write_begin		= aufs_write_begin,
 	.write_end		= aufs_write_end,
 	/* no bmap, no block device */

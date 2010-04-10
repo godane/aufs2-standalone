@@ -245,6 +245,14 @@ Date:   Mon Mar 8 23:45:56 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 10f024d547f797bf356921bdcb7e63ac25440bf6
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Mar 6 18:01:08 2010 +0900
+
+    aufs: fix the failure in manual merging
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 9dedd0a621f2e6a51615dc38139b825e56ad4547
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Mar 5 04:01:54 2010 +0900
@@ -1014,6 +1022,14 @@ Date:   Wed Nov 25 17:43:07 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 684857bf8613ed1ef7f538699f69f30761405835
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Nov 25 17:32:50 2009 +0900
+
+    aufs: tiny, replace AuErr macro by pr_err
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit b36da07a32789c54e6b44b72410a361cc85ef090
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Nov 25 16:59:17 2009 +0900
@@ -1152,6 +1168,19 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Sep 29 00:57:01 2009 +0900
 
     aufs: tiny, re-order the configurations
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 99cc47b8cbcc31fe5f8e0b6faa8308f96ee42fa9
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Sep 24 01:01:06 2009 +0900
+
+    aufs: tiny, replace AuDpri macro by pr_fmt
+    
+    More common way to customize the messages.
+    Define pr_fmt macro in fs/aufs/Makefile.
+    All Au{Info,Warn,Err} macros are replaced by generic
+    pr_{info,warning,err} macros.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2059,6 +2088,16 @@ Date:   Fri Jun 19 17:33:54 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 9c94f4d725414b9caac0e7df1bbb5a2ae96c7cac
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Jun 15 16:00:16 2009 +0900
+
+    aufs: support linux-2.6.28
+    
+    Forgot to remove re-difining DEBUGFS_MAGIC.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 88836c24039388d60347780252449e87146f15a7
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Jun 12 13:32:57 2009 +0900
@@ -2593,6 +2632,17 @@ Date:   Tue Mar 31 00:37:20 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit be7c39b29b850489f3eb2ea2d977ec51d13126a4
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 30 20:57:30 2009 +0900
+
+    aufs: tiny: workaround to convert fmode_t
+    
+    New functions vfsub_fmode_to_uint() and vfsub_uint_to_fmode() converts
+    uint <--> fmode_t.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit d6543b424cf42688b11f090d9b8f3ab40d8bbd27
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Mar 30 15:25:15 2009 +0900
@@ -2619,6 +2669,17 @@ Date:   Mon Mar 30 13:39:23 2009 +0900
     au_br_mod_files_ro() used to drop the flags for writing from f_flags. It
     might not be good and this patch stops it. But dropping FMODE_WRITE is
     left of course.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit c32bf1947381120410d25a75f04c531dbf3cdb7f
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 27 02:19:13 2009 +0900
+
+    aufs: support fmode_t in linux-2.6.28
+    
+    Faking cast operation by union in au_store_oflag().
+    While it is not beautiful, I don't like cast more.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2731,6 +2792,23 @@ Date:   Sat Mar 21 15:06:39 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 946ae476cb72850e6258cb21558acafca067095a
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Mar 21 12:20:47 2009 +0900
+
+    [aufs] temporary workaround for a bug in NFSD readdir
+    
+    There is a regression in the commit
+    14f7dd632011bb89c035722edd6ea0d90ca6b078
+    "[PATCH] Copy XFS readdir hack into nfsd code".
+    While will be fixed soon.
+    cf. http://marc.info/?l=linux-kernel&m=123747448209411&w=2
+    
+    This patch produces a warning for the bug instead of BUG_ON() as a
+    temporay workaround.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 7bbd22bc9b202baaf0c916cabaff58ab83edd037
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Mar 21 12:15:06 2009 +0900
@@ -2786,11 +2864,31 @@ Date:   Thu Mar 19 13:07:43 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit f230bd0527d75e20d0b0422ee8bca4df6e3474e2
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 17 22:43:07 2009 +0900
+
+    tiny: fix the conflict in last commit
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit d2a87add7049a1bdad6712f4732e8240c032eafe
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Mar 17 17:35:31 2009 +0900
 
     minor optimization: new variable h_inode in au_h_verify_dentry()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 211602fa4957fbbde4903ecc8be2185367741cec
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 17 16:50:25 2009 +0900
+
+    support exporting via NFS in 2.6.28, replace path_lookup() by kern_path()
+    
+    - remove noinline_for_stack from decode_by_path().
+    - replace struct nameidata by struct path.
+    - replace path_lookup() by kern_path().
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -3066,6 +3164,14 @@ Date:   Wed Mar 4 14:18:45 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 05b55411acfe04a46a0b4a876e356afc7ab67c60
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 4 14:17:17 2009 +0900
+
+    workaround for fmode_t
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 8539eb36613fd22af5ec2b21d7a0276c3aefc208
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sun Mar 1 19:51:50 2009 +0900
@@ -3149,6 +3255,33 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Feb 23 15:56:03 2009 +0900
 
     tiny: fix typos
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit aefc8980b77541ec88b37feb0a1951bd2da6babb
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Feb 21 22:20:11 2009 +0900
+
+    skip test for a negative dentry in nfs
+    
+    nfs d_revalidate may return 0 for negative dentry, so the test in
+    au_h_verify_dentry() for udba=inotify lost its meaning, as well as fuse
+    case.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 92c0263ab157fa0e05d08efea1ba214b1354575c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Feb 20 18:08:49 2009 +0900
+
+    support linux-2.6.18
+    
+    - remove ->prepare_write() and ->commit_write() from aufs_aop.
+    - support the new type fmode_t.
+    - reject securityfs as a branch.
+    - remove TMPFS_MAGIC and SYSFS_MAGIC from magic.mk.
+    - replace path_lookup() by a new function kern_path().
+    - version string.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 

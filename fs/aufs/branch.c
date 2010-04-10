@@ -156,7 +156,7 @@ static int test_br(struct inode *inode, int brperm, char *path)
 		goto out;
 
 	err = -EINVAL;
-	AuErr("write permission for readonly mount or inode, %s\n", path);
+	pr_err("write permission for readonly mount or inode, %s\n", path);
 
  out:
 	return err;
@@ -182,7 +182,7 @@ static int test_add(struct super_block *sb, struct au_opt_add *add, int remount)
 		err = 1;
 		if (!remount) {
 			err = -EINVAL;
-			AuErr("%s duplicated\n", add->pathname);
+			pr_err("%s duplicated\n", add->pathname);
 		}
 		goto out;
 	}
@@ -190,32 +190,32 @@ static int test_add(struct super_block *sb, struct au_opt_add *add, int remount)
 	err = -ENOSPC; /* -E2BIG; */
 	if (unlikely(AUFS_BRANCH_MAX <= add->bindex
 		     || AUFS_BRANCH_MAX - 1 <= bend)) {
-		AuErr("number of branches exceeded %s\n", add->pathname);
+		pr_err("number of branches exceeded %s\n", add->pathname);
 		goto out;
 	}
 
 	err = -EDOM;
 	if (unlikely(add->bindex < 0 || bend + 1 < add->bindex)) {
-		AuErr("bad index %d\n", add->bindex);
+		pr_err("bad index %d\n", add->bindex);
 		goto out;
 	}
 
 	inode = add->path.dentry->d_inode;
 	err = -ENOENT;
 	if (unlikely(!inode->i_nlink)) {
-		AuErr("no existence %s\n", add->pathname);
+		pr_err("no existence %s\n", add->pathname);
 		goto out;
 	}
 
 	err = -EINVAL;
 	if (unlikely(inode->i_sb == sb)) {
-		AuErr("%s must be outside\n", add->pathname);
+		pr_err("%s must be outside\n", add->pathname);
 		goto out;
 	}
 
 	if (unlikely(au_test_fs_unsuppoted(inode->i_sb))) {
-		AuErr("unsupported filesystem, %s (%s)\n",
-		      add->pathname, au_sbtype(inode->i_sb));
+		pr_err("unsupported filesystem, %s (%s)\n",
+		       add->pathname, au_sbtype(inode->i_sb));
 		goto out;
 	}
 
@@ -230,7 +230,7 @@ static int test_add(struct super_block *sb, struct au_opt_add *add, int remount)
 	for (bindex = 0; bindex <= bend; bindex++)
 		if (unlikely(test_overlap(sb, add->path.dentry,
 					  au_h_dptr(root, bindex)))) {
-			AuErr("%s is overlapped\n", add->pathname);
+			pr_err("%s is overlapped\n", add->pathname);
 			goto out;
 		}
 
@@ -240,12 +240,12 @@ static int test_add(struct super_block *sb, struct au_opt_add *add, int remount)
 		if ((h_inode->i_mode & S_IALLUGO) != (inode->i_mode & S_IALLUGO)
 		    || h_inode->i_uid != inode->i_uid
 		    || h_inode->i_gid != inode->i_gid)
-			AuWarn("uid/gid/perm %s %u/%u/0%o, %u/%u/0%o\n",
-			       add->pathname,
-			       inode->i_uid, inode->i_gid,
-			       (inode->i_mode & S_IALLUGO),
-			       h_inode->i_uid, h_inode->i_gid,
-			       (h_inode->i_mode & S_IALLUGO));
+			pr_warning("uid/gid/perm %s %u/%u/0%o, %u/%u/0%o\n",
+				   add->pathname,
+				   inode->i_uid, inode->i_gid,
+				   (inode->i_mode & S_IALLUGO),
+				   h_inode->i_uid, h_inode->i_gid,
+				   (h_inode->i_mode & S_IALLUGO));
 	}
 
  out:
@@ -324,9 +324,9 @@ static int au_wbr_init(struct au_branch *br, struct super_block *sb,
 	if (kst.f_namelen >= NAME_MAX)
 		err = au_br_init_wh(sb, br, perm, h_dentry);
 	else
-		AuErr("%.*s(%s), unsupported namelen %ld\n",
-		      AuDLNPair(h_dentry), au_sbtype(h_dentry->d_sb),
-		      kst.f_namelen);
+		pr_err("%.*s(%s), unsupported namelen %ld\n",
+		       AuDLNPair(h_dentry), au_sbtype(h_dentry->d_sb),
+		       kst.f_namelen);
 
  out:
 	return err;
@@ -509,7 +509,7 @@ int au_br_add(struct super_block *sb, struct au_opt_add *add, int remount)
 /* to show the line number, do not make it inlined function */
 #define AuVerbose(do_info, fmt, ...) do { \
 	if (do_info) \
-		AuInfo(fmt, ##__VA_ARGS__); \
+		pr_info(fmt, ##__VA_ARGS__); \
 } while (0)
 
 /*
@@ -734,7 +734,7 @@ int au_br_del(struct super_block *sb, struct au_opt_del *del, int remount)
 		if (remount)
 			goto out; /* success */
 		err = -ENOENT;
-		AuErr("%s no such branch\n", del->pathname);
+		pr_err("%s no such branch\n", del->pathname);
 		goto out;
 	}
 	AuDbg("bindex b%d\n", bindex);
@@ -798,8 +798,8 @@ int au_br_del(struct super_block *sb, struct au_opt_del *del, int remount)
 	/* revert */
 	rerr = au_br_init_wh(sb, br, br->br_perm, del->h_path.dentry);
 	if (rerr)
-		AuWarn("failed re-creating base whiteout, %s. (%d)\n",
-		       del->pathname, rerr);
+		pr_warning("failed re-creating base whiteout, %s. (%d)\n",
+			   del->pathname, rerr);
  out:
 	return err;
 }
@@ -916,7 +916,7 @@ int au_br_mod(struct super_block *sb, struct au_opt_mod *mod, int remount,
 		if (remount)
 			return 0; /* success */
 		err = -ENOENT;
-		AuErr("%s no such branch\n", mod->path);
+		pr_err("%s no such branch\n", mod->path);
 		goto out;
 	}
 	AuDbg("bindex b%d\n", bindex);

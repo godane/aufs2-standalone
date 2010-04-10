@@ -107,7 +107,7 @@ static int hn_xino(struct inode *inode, struct inode *h_inode)
 
 	err = 0;
 	if (unlikely(inode->i_ino == AUFS_ROOT_INO)) {
-		AuWarn("branch root dir was changed\n");
+		pr_warning("branch root dir was changed\n");
 		goto out;
 	}
 
@@ -201,7 +201,7 @@ static int hn_gen_by_inode(char *name, unsigned int nlen, struct inode *inode,
 
 	err = 1;
 	if (unlikely(inode->i_ino == AUFS_ROOT_INO)) {
-		AuWarn("branch root dir was changed\n");
+		pr_warning("branch root dir was changed\n");
 		err = 0;
 		goto out;
 	}
@@ -251,7 +251,7 @@ static int hn_gen_by_name(struct dentry *dentry, const unsigned int isdir)
 	if (IS_ROOT(dentry)
 	    /* || (inode && inode->i_ino == AUFS_ROOT_INO) */
 		) {
-		AuWarn("branch root dir was changed\n");
+		pr_warning("branch root dir was changed\n");
 		return 0;
 	}
 
@@ -349,8 +349,8 @@ static int hn_job(struct hn_job_args *a)
 	if (au_ftest_hnjob(a->flags, MNTPNT)
 	    && a->dentry
 	    && d_mountpoint(a->dentry))
-		AuWarn("mount-point %.*s is removed or renamed\n",
-		       AuDLNPair(a->dentry));
+		pr_warning("mount-point %.*s is removed or renamed\n",
+			   AuDLNPair(a->dentry));
 
 	return 0;
 }
@@ -408,7 +408,7 @@ static struct inode *lookup_wlock_by_ino(struct super_block *sb,
 		goto out;
 
 	if (unlikely(inode->i_ino == AUFS_ROOT_INO)) {
-		AuWarn("wrong root branch\n");
+		pr_warning("wrong root branch\n");
 		iput(inode);
 		inode = NULL;
 		goto out;
@@ -630,7 +630,7 @@ int au_hnotify(struct inode *h_dir, struct au_hnotify *hnotify, u32 mask,
 	err = au_wkq_nowait(au_hn_bh, args, dir->i_sb);
 	lockdep_on();
 	if (unlikely(err)) {
-		AuErr("wkq %d\n", err);
+		pr_err("wkq %d\n", err);
 		iput(args->h_child_inode);
 		iput(args->h_dir);
 		iput(args->dir);

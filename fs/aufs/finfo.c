@@ -119,8 +119,9 @@ int au_finfo_init(struct file *file)
 	/* smp_mb(); */ /* atomic_set */
 
 	/* cf. au_store_oflag() */
+	/* suppress a warning in lp64 */
 	ul = (unsigned long)file->private_data;
-	file->f_mode |= (ul & FMODE_EXEC);
+	file->f_mode |= (vfsub_uint_to_fmode(ul) & FMODE_EXEC);
 	file->private_data = finfo;
 	return 0; /* success */
 

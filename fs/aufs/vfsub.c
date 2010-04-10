@@ -62,16 +62,15 @@ struct file *vfsub_filp_open(const char *path, int oflags, int mode)
 	return file;
 }
 
-int vfsub_path_lookup(const char *name, unsigned int flags,
-		      struct nameidata *nd)
+int vfsub_kern_path(const char *name, unsigned int flags, struct path *path)
 {
 	int err;
 
 	/* lockdep_off(); */
-	err = path_lookup(name, flags, nd);
+	err = kern_path(name, flags, path);
 	/* lockdep_on(); */
-	if (!err && nd->path.dentry->d_inode)
-		vfsub_update_h_iattr(&nd->path, /*did*/NULL); /*ignore*/
+	if (!err && path->dentry->d_inode)
+		vfsub_update_h_iattr(path, /*did*/NULL); /*ignore*/
 	return err;
 }
 
@@ -157,7 +156,8 @@ int vfsub_create(struct inode *dir, struct path *path, int mode)
 
 		memset(&h_nd, 0, sizeof(h_nd));
 		h_nd.flags = LOOKUP_CREATE;
-		h_nd.intent.open.flags = O_CREAT | FMODE_READ;
+		h_nd.intent.open.flags = O_CREAT
+			| vfsub_fmode_to_uint(FMODE_READ);
 		h_nd.intent.open.create_mode = mode;
 		h_nd.path.dentry = path->dentry->d_parent;
 		h_nd.path.mnt = path->mnt;
@@ -444,7 +444,7 @@ int vfsub_trunc(struct path *h_path, loff_t length, unsigned int attr,
 		err = get_write_access(h_inode);
 		if (err)
 			goto out_mnt;
-		err = break_lease(h_inode, FMODE_WRITE);
+		err = break_lease(h_inode, vfsub_fmode_to_uint(FMODE_WRITE));
 		if (err)
 			goto out_inode;
 	}

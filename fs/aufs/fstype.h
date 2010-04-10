@@ -257,6 +257,15 @@ static inline int au_test_vfat(struct super_block *sb)
 	return au_test_fat(sb);
 }
 
+static inline int au_test_securityfs(struct super_block *sb __maybe_unused)
+{
+#ifdef CONFIG_SECURITYFS
+	return sb->s_magic == SECURITYFS_MAGIC;
+#else
+	return 0;
+#endif
+}
+
 static inline int au_test_debugfs(struct super_block *sb __maybe_unused)
 {
 #ifdef CONFIG_DEBUG_FS
@@ -289,6 +298,7 @@ static inline int au_test_fs_unsuppoted(struct super_block *sb)
 		|| au_test_sysfs(sb)
 		|| au_test_configfs(sb)
 		|| au_test_debugfs(sb)
+		|| au_test_securityfs(sb)
 		/* || !strcmp(au_sbtype(sb), "unionfs") */
 		|| au_test_aufs(sb); /* will be supported in next version */
 }

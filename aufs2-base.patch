@@ -1,10 +1,10 @@
-aufs2 base patch for linux-2.6.27
+aufs2 base patch for linux-2.6.28
 
 diff --git a/fs/namei.c b/fs/namei.c
-index 4ea63ed..2759ad4 100644
+index d34e0f9..3791609 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -1241,7 +1241,7 @@ out:
+@@ -1212,7 +1212,7 @@ out:
   * needs parent already locked. Doesn't follow mounts.
   * SMP-safe.
   */
@@ -13,7 +13,7 @@ index 4ea63ed..2759ad4 100644
  {
  	int err;
  
-@@ -1251,7 +1251,7 @@ static struct dentry *lookup_hash(struct nameidata *nd)
+@@ -1222,7 +1222,7 @@ static struct dentry *lookup_hash(struct nameidata *nd)
  	return __lookup_hash(&nd->last, nd->path.dentry, nd);
  }
  
@@ -23,7 +23,7 @@ index 4ea63ed..2759ad4 100644
  {
  	unsigned long hash;
 diff --git a/fs/splice.c b/fs/splice.c
-index a1e701c..409245a 100644
+index 1abab5c..678100b 100644
 --- a/fs/splice.c
 +++ b/fs/splice.c
 @@ -887,8 +887,8 @@ EXPORT_SYMBOL(generic_splice_sendpage);
@@ -51,10 +51,10 @@ index a1e701c..409245a 100644
  	int ret;
  
 diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 68f8c32..5522432 100644
+index 99eb803..f6cdf1c 100644
 --- a/include/linux/namei.h
 +++ b/include/linux/namei.h
-@@ -71,6 +71,9 @@ extern struct file *lookup_instantiate_filp(struct nameidata *nd, struct dentry
+@@ -75,6 +75,9 @@ extern struct file *lookup_instantiate_filp(struct nameidata *nd, struct dentry
  extern struct file *nameidata_to_filp(struct nameidata *nd, int flags);
  extern void release_open_intent(struct nameidata *);
  
