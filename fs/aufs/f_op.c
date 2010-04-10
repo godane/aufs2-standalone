@@ -22,7 +22,6 @@
 
 #include <linux/file.h>
 #include <linux/fs_stack.h>
-#include <linux/ima.h>
 #include <linux/mman.h>
 #include <linux/mm.h>
 #include <linux/security.h>
@@ -80,10 +79,6 @@ int au_do_open_nondir(struct file *file, int flags)
 	finfo->fi_vm_ops = NULL;
 	mutex_init(&finfo->fi_mmap); /* regular file only? */
 	bindex = au_dbstart(dentry);
-	/* O_TRUNC is processed already */
-	BUG_ON(au_test_ro(dentry->d_sb, bindex, dentry->d_inode)
-	       && (flags & O_TRUNC));
-
 	h_file = au_h_open(dentry, bindex, flags, file);
 	if (IS_ERR(h_file))
 		err = PTR_ERR(h_file);
@@ -101,6 +96,9 @@ int au_do_open_nondir(struct file *file, int flags)
 static int aufs_open_nondir(struct inode *inode __maybe_unused,
 			    struct file *file)
 {
+	AuDbg("%.*s, f_ flags 0x%x, f_mode 0x%x\n",
+	      AuDLNPair(file->f_dentry), vfsub_file_flags(file),
+	      file->f_mode);
 	return au_do_open(file, au_do_open_nondir);
 }
 
@@ -519,11 +517,6 @@ static struct vm_operations_struct *au_vm_ops(struct file *h_file,
 	prot = au_prot_conv(vma->vm_flags);
 	err = security_file_mmap(h_file, /*reqprot*/prot, prot,
 				 au_flag_conv(vma->vm_flags), vma->vm_start, 0);
-	vm_ops = ERR_PTR(err);
-	if (unlikely(err))
-		goto out;
-
-	err = ima_file_mmap(h_file, prot);
 	vm_ops = ERR_PTR(err);
 	if (unlikely(err))
 		goto out;

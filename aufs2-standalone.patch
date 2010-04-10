@@ -1,10 +1,10 @@
-aufs2 standalone patch for linux-2.6.32
+aufs2 standalone patch for linux-2.6.33
 
 diff --git a/fs/namei.c b/fs/namei.c
-index 7d28f56..0f6117c 100644
+index 1d12d37..7cb8e5d 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -350,6 +350,7 @@ int deny_write_access(struct file * file)
+@@ -349,6 +349,7 @@ int deny_write_access(struct file * file)
  
  	return 0;
  }
@@ -12,7 +12,7 @@ index 7d28f56..0f6117c 100644
  
  /**
   * path_get - get a reference to a path
-@@ -1228,6 +1229,7 @@ struct dentry *lookup_hash(struct nameidata *nd)
+@@ -1216,6 +1217,7 @@ struct dentry *lookup_hash(struct nameidata *nd)
  		return ERR_PTR(err);
  	return __lookup_hash(&nd->last, nd->path.dentry, nd);
  }
@@ -20,7 +20,7 @@ index 7d28f56..0f6117c 100644
  
  int __lookup_one_len(const char *name, struct qstr *this,
  		struct dentry *base, int len)
-@@ -1250,6 +1252,7 @@ int __lookup_one_len(const char *name, struct qstr *this,
+@@ -1238,6 +1240,7 @@ int __lookup_one_len(const char *name, struct qstr *this,
  	this->hash = end_name_hash(hash);
  	return 0;
  }
@@ -29,7 +29,7 @@ index 7d28f56..0f6117c 100644
  /**
   * lookup_one_len - filesystem helper to lookup single pathname component
 diff --git a/fs/namespace.c b/fs/namespace.c
-index bdc3cb4..a2cadcf 100644
+index c768f73..0fd78c3 100644
 --- a/fs/namespace.c
 +++ b/fs/namespace.c
 @@ -39,6 +39,7 @@
@@ -110,10 +110,10 @@ index 3165d85..4586162 100644
  /**
   * fsnotify_unmount_inodes - an sb is unmounting.  handle any watched inodes.
 diff --git a/fs/open.c b/fs/open.c
-index 4f01e06..ef09031 100644
+index 040cef7..453b782 100644
 --- a/fs/open.c
 +++ b/fs/open.c
-@@ -223,6 +223,7 @@ int do_truncate(struct dentry *dentry, loff_t length, unsigned int time_attrs,
+@@ -226,6 +226,7 @@ int do_truncate(struct dentry *dentry, loff_t length, unsigned int time_attrs,
  	mutex_unlock(&dentry->d_inode->i_mutex);
  	return ret;
  }
@@ -122,10 +122,10 @@ index 4f01e06..ef09031 100644
  static long do_sys_truncate(const char __user *pathname, loff_t length)
  {
 diff --git a/fs/splice.c b/fs/splice.c
-index 77184f0..8479d95 100644
+index b13a9a2..3931ee0 100644
 --- a/fs/splice.c
 +++ b/fs/splice.c
-@@ -1074,6 +1074,7 @@ long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
+@@ -1077,6 +1077,7 @@ long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
  
  	return splice_write(pipe, out, ppos, len, flags);
  }
@@ -133,7 +133,7 @@ index 77184f0..8479d95 100644
  
  /*
   * Attempt to initiate a splice from a file to a pipe.
-@@ -1099,6 +1100,7 @@ long do_splice_to(struct file *in, loff_t *ppos,
+@@ -1103,6 +1104,7 @@ long do_splice_to(struct file *in, loff_t *ppos,
  
  	return splice_read(in, ppos, pipe, len, flags);
  }
@@ -142,10 +142,10 @@ index 77184f0..8479d95 100644
  /**
   * splice_direct_to_actor - splices data directly between two non-pipes
 diff --git a/security/commoncap.c b/security/commoncap.c
-index fe30751..813108d 100644
+index f800fdb..ea457bc 100644
 --- a/security/commoncap.c
 +++ b/security/commoncap.c
-@@ -1014,3 +1014,4 @@ int cap_file_mmap(struct file *file, unsigned long reqprot,
+@@ -946,3 +946,4 @@ int cap_file_mmap(struct file *file, unsigned long reqprot,
  	}
  	return ret;
  }
@@ -162,23 +162,11 @@ index 6cf8fd2..008e0d8 100644
  
  int devcgroup_inode_mknod(int mode, dev_t dev)
  {
-diff --git a/security/integrity/ima/ima_main.c b/security/integrity/ima/ima_main.c
-index b85e61b..a23fad4 100644
---- a/security/integrity/ima/ima_main.c
-+++ b/security/integrity/ima/ima_main.c
-@@ -324,6 +324,7 @@ int ima_file_mmap(struct file *file, unsigned long prot)
- 					 MAY_EXEC, FILE_MMAP);
- 	return 0;
- }
-+EXPORT_SYMBOL(ima_file_mmap);
- 
- /**
-  * ima_bprm_check - based on policy, collect/store measurement.
 diff --git a/security/security.c b/security/security.c
-index c4c6732..092cd90 100644
+index 122b748..a4a3d99 100644
 --- a/security/security.c
 +++ b/security/security.c
-@@ -386,6 +386,7 @@ int security_path_mkdir(struct path *path, struct dentry *dentry, int mode)
+@@ -404,6 +404,7 @@ int security_path_mkdir(struct path *path, struct dentry *dentry, int mode)
  		return 0;
  	return security_ops->path_mkdir(path, dentry, mode);
  }
@@ -186,7 +174,7 @@ index c4c6732..092cd90 100644
  
  int security_path_rmdir(struct path *path, struct dentry *dentry)
  {
-@@ -393,6 +394,7 @@ int security_path_rmdir(struct path *path, struct dentry *dentry)
+@@ -411,6 +412,7 @@ int security_path_rmdir(struct path *path, struct dentry *dentry)
  		return 0;
  	return security_ops->path_rmdir(path, dentry);
  }
@@ -194,7 +182,7 @@ index c4c6732..092cd90 100644
  
  int security_path_unlink(struct path *path, struct dentry *dentry)
  {
-@@ -400,6 +402,7 @@ int security_path_unlink(struct path *path, struct dentry *dentry)
+@@ -418,6 +420,7 @@ int security_path_unlink(struct path *path, struct dentry *dentry)
  		return 0;
  	return security_ops->path_unlink(path, dentry);
  }
@@ -202,7 +190,7 @@ index c4c6732..092cd90 100644
  
  int security_path_symlink(struct path *path, struct dentry *dentry,
  			  const char *old_name)
-@@ -408,6 +411,7 @@ int security_path_symlink(struct path *path, struct dentry *dentry,
+@@ -426,6 +429,7 @@ int security_path_symlink(struct path *path, struct dentry *dentry,
  		return 0;
  	return security_ops->path_symlink(path, dentry, old_name);
  }
@@ -210,7 +198,7 @@ index c4c6732..092cd90 100644
  
  int security_path_link(struct dentry *old_dentry, struct path *new_dir,
  		       struct dentry *new_dentry)
-@@ -416,6 +420,7 @@ int security_path_link(struct dentry *old_dentry, struct path *new_dir,
+@@ -434,6 +438,7 @@ int security_path_link(struct dentry *old_dentry, struct path *new_dir,
  		return 0;
  	return security_ops->path_link(old_dentry, new_dir, new_dentry);
  }
@@ -218,7 +206,7 @@ index c4c6732..092cd90 100644
  
  int security_path_rename(struct path *old_dir, struct dentry *old_dentry,
  			 struct path *new_dir, struct dentry *new_dentry)
-@@ -426,6 +431,7 @@ int security_path_rename(struct path *old_dir, struct dentry *old_dentry,
+@@ -444,6 +449,7 @@ int security_path_rename(struct path *old_dir, struct dentry *old_dentry,
  	return security_ops->path_rename(old_dir, old_dentry, new_dir,
  					 new_dentry);
  }
@@ -226,15 +214,31 @@ index c4c6732..092cd90 100644
  
  int security_path_truncate(struct path *path, loff_t length,
  			   unsigned int time_attrs)
-@@ -434,6 +440,7 @@ int security_path_truncate(struct path *path, loff_t length,
+@@ -452,6 +458,7 @@ int security_path_truncate(struct path *path, loff_t length,
  		return 0;
  	return security_ops->path_truncate(path, length, time_attrs);
  }
 +EXPORT_SYMBOL(security_path_truncate);
- #endif
  
- int security_inode_create(struct inode *dir, struct dentry *dentry, int mode)
-@@ -505,6 +512,7 @@ int security_inode_readlink(struct dentry *dentry)
+ int security_path_chmod(struct dentry *dentry, struct vfsmount *mnt,
+ 			mode_t mode)
+@@ -460,6 +467,7 @@ int security_path_chmod(struct dentry *dentry, struct vfsmount *mnt,
+ 		return 0;
+ 	return security_ops->path_chmod(dentry, mnt, mode);
+ }
++EXPORT_SYMBOL(security_path_chmod);
+ 
+ int security_path_chown(struct path *path, uid_t uid, gid_t gid)
+ {
+@@ -467,6 +475,7 @@ int security_path_chown(struct path *path, uid_t uid, gid_t gid)
+ 		return 0;
+ 	return security_ops->path_chown(path, uid, gid);
+ }
++EXPORT_SYMBOL(security_path_chown);
+ 
+ int security_path_chroot(struct path *path)
+ {
+@@ -543,6 +552,7 @@ int security_inode_readlink(struct dentry *dentry)
  		return 0;
  	return security_ops->inode_readlink(dentry);
  }
@@ -242,7 +246,7 @@ index c4c6732..092cd90 100644
  
  int security_inode_follow_link(struct dentry *dentry, struct nameidata *nd)
  {
-@@ -519,6 +527,7 @@ int security_inode_permission(struct inode *inode, int mask)
+@@ -557,6 +567,7 @@ int security_inode_permission(struct inode *inode, int mask)
  		return 0;
  	return security_ops->inode_permission(inode, mask);
  }
@@ -250,7 +254,7 @@ index c4c6732..092cd90 100644
  
  int security_inode_setattr(struct dentry *dentry, struct iattr *attr)
  {
-@@ -619,6 +628,7 @@ int security_file_permission(struct file *file, int mask)
+@@ -657,6 +668,7 @@ int security_file_permission(struct file *file, int mask)
  {
  	return security_ops->file_permission(file, mask);
  }
@@ -258,9 +262,9 @@ index c4c6732..092cd90 100644
  
  int security_file_alloc(struct file *file)
  {
-@@ -641,6 +651,7 @@ int security_file_mmap(struct file *file, unsigned long reqprot,
- {
- 	return security_ops->file_mmap(file, reqprot, prot, flags, addr, addr_only);
+@@ -684,6 +696,7 @@ int security_file_mmap(struct file *file, unsigned long reqprot,
+ 		return ret;
+ 	return ima_file_mmap(file, prot);
  }
 +EXPORT_SYMBOL(security_file_mmap);
  

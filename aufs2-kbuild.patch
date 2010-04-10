@@ -1,4 +1,4 @@
-aufs2 kbuild patch for linux-2.6.32
+aufs2 kbuild patch for linux-2.6.33
 
 diff --git a/fs/Kconfig b/fs/Kconfig
 index 64d44ef..3e1f2f0 100644
@@ -22,7 +22,7 @@ index af6d047..dba1ce1 100644
  obj-$(CONFIG_EXOFS_FS)          += exofs/
 +obj-$(CONFIG_AUFS_FS)           += aufs/
 diff --git a/include/linux/Kbuild b/include/linux/Kbuild
-index 1feed71..4ceebc7 100644
+index 756f831..4b593cb 100644
 --- a/include/linux/Kbuild
 +++ b/include/linux/Kbuild
 @@ -34,6 +34,7 @@ header-y += atmppp.h

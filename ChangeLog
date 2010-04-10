@@ -195,6 +195,16 @@ Date:   Thu Mar 25 23:01:51 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit c153fccafc974d5125fc2d32c92e3786ef6220cd
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 23 22:48:10 2010 +0900
+
+    aufs: support DEBUG_OBJECTS_WORK
+    
+    Most users will not be interested, I am afraid.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 8c7f6e6d847b04f0daaa752e911185abff48c784
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Mar 23 01:34:53 2010 +0900
@@ -472,6 +482,14 @@ Date:   Mon Mar 1 17:52:50 2010 +0900
     Reported-by: "James ." <jazzrz86@gmail.com>
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 68920bede35eec3aa1df78ca69243b87b8688d25
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 1 16:50:49 2010 +0900
+
+    aufs: version string for aufs2-33
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 1f18243787e259b9805383e7750ad6ca4f02c823
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sun Feb 28 17:09:00 2010 +0900
@@ -527,6 +545,34 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Feb 22 23:00:08 2010 +0900
 
     aufs: cosmetic clean-up for i_op_del.c
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 82a2906ff8d0ce227d56ec5cf3f615247124aa9b
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Feb 22 12:50:14 2010 +0900
+
+    aufs: tiny, just tabify
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 96565321bb0f67d7106c3089f7bc24f98bbdc998
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sun Feb 21 23:47:54 2010 +0900
+
+    aufs: minor optimization in au_conv_oflags()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 1e89b3d30002ede54006d389b31ad4515c9a981a
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sun Feb 21 22:06:09 2010 +0900
+
+    aufs: follow the upstream changes for IMA
+    
+    IMA is modified again and again.
+    Here I have to restore the ugly flag conversion code just to call
+    ima_file_check().
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -735,6 +781,20 @@ Date:   Fri Jan 15 22:41:17 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 253c22c5fd7be997cb13f6694e8106807357ea1a
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Jan 15 21:39:48 2010 +0900
+
+    aufs: follow the change made in linux-2.6.33-rc1
+    
+    The upstream fixed a bug in fsstack_copy_inode_size() which needs
+    inode->i_lock. Aufs already supports it for a long time. Now the fix in
+    upstream causes a deadlock. Let's remove the workaround in aufs.
+    
+    Reported-by: "Mykola S. Grechukh" <gns@altlinux.org>
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit af6a5249161ec8a549788200b516bdabc52e1b62
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Jan 14 16:25:59 2010 +0900
@@ -834,6 +894,18 @@ Date:   Sun Jan 3 02:15:28 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit b9efefdfb1f21164029122b7b6148033d7cadad2
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sun Jan 3 00:44:19 2010 +0900
+
+    aufs: tiny, make dentry_open() wrapper inlined again
+    
+    Cf.
+    5f80ac5 aufs: tiny, new abstract function vfsub_dentry_open()
+    a528172 aufs: follow the changes for IMA
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 5f80ac5970a39e18c00db69889ef641aef9e4f48
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jan 2 16:32:31 2010 +0900
@@ -872,6 +944,26 @@ Date:   Sat Jan 2 12:21:03 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 931db95060f0747549be405b6ec49475f71bbb0e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Dec 25 17:22:47 2009 +0900
+
+    aufs stdalone: follow the changes for IMA
+    
+    Most of IMA code where hidden by generic security routines.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a528172878764dba217b3ddb310f98b5da6b732f
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Dec 25 17:22:01 2009 +0900
+
+    aufs: follow the changes for IMA
+    
+    Most of IMA code where hidden by generic security routines.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit e5843a8384a3d064b57bccb1d32a3cd7327121a9
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Dec 24 23:52:24 2009 +0900
@@ -899,6 +991,17 @@ Date:   Thu Dec 24 14:37:00 2009 +0900
     aufs stdalone: support security_file_mmap()
     
     Export security_file_mmap() for aufs.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 3a4bbfd5b06f65def492a1c97b57dbce517bbf95
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Dec 23 00:49:56 2009 +0900
+
+    aufs: follow the changes around O_TRUNC
+    
+    Now linux/fs/namei.c:do_filp_open() was changed and O_TRUNC is handled
+    after open.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1152,11 +1255,38 @@ Date:   Mon Dec 7 21:22:32 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 1fb16b3a49bad5106bb063dbc1955571ce414153
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Dec 7 21:08:15 2009 +0900
+
+    aufs: linux-2.6.33-rcN, call security_path_{chown,chmod}()
+    
+    In linux-2.6.33-rcN, some new path-baseed security functions are
+    introduced.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit fc45d19de98a6600023e9532785319662de62d2e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Dec 7 18:48:16 2009 +0900
+
+    aufs: export security_path_{chown,chmod}() for standalone version
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 26104ed68359df3213ce6bba7c0f53bb50be0882
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Dec 7 17:25:16 2009 +0900
 
     aufs: tiny, add a comment about security_file_mmap()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 9ed7d96f81c95f7402b11bcf4a9047b232556bdf
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Dec 7 14:18:13 2009 +0900
+
+    aufs: version string for aufs2-33-rcN
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 

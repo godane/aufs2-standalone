@@ -26,7 +26,6 @@
 #ifdef __KERNEL__
 
 #include <linux/fs.h>
-#include <linux/fs_stack.h>
 
 /* ---------------------------------------------------------------------- */
 
@@ -49,17 +48,9 @@ enum {
 
 /* ---------------------------------------------------------------------- */
 
-static inline void vfsub_copy_inode_size(struct inode *inode,
-					 struct inode *h_inode)
-{
-	spin_lock(&inode->i_lock);
-	fsstack_copy_inode_size(inode, h_inode);
-	spin_unlock(&inode->i_lock);
-}
-
 int vfsub_update_h_iattr(struct path *h_path, int *did);
-struct file *vfsub_filp_open(const char *path, int oflags, int mode);
 struct file *vfsub_dentry_open(struct path *path, int flags);
+struct file *vfsub_filp_open(const char *path, int oflags, int mode);
 int vfsub_kern_path(const char *name, unsigned int flags, struct path *path);
 struct dentry *vfsub_lookup_one_len(const char *name, struct dentry *parent,
 				    int len);
