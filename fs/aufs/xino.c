@@ -57,12 +57,12 @@ static ssize_t do_xino_fwrite(au_writef_t func, struct file *file, void *buf,
 
 	oldfs = get_fs();
 	set_fs(KERNEL_DS);
-	lockdep_off();
+	/* lockdep_off(); */
 	do {
 		/* todo: signal_pending? */
 		err = func(file, (const char __user *)buf, size, pos);
 	} while (err == -EAGAIN || err == -EINTR);
-	lockdep_on();
+	/* lockdep_on(); */
 	set_fs(oldfs);
 
 #if 0 /* reserved for future use */
@@ -1146,7 +1146,7 @@ struct file *au_xino_def(struct super_block *sb)
 
 	if (bwr >= 0) {
 		file = ERR_PTR(-ENOMEM);
-		page = au_getname();
+		page = __getname_gfp(GFP_NOFS);
 		if (unlikely(!page))
 			goto out;
 		path.mnt = br->br_mnt;

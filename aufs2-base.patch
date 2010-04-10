@@ -1,10 +1,10 @@
-aufs2 base patch for linux-2.6.30
+aufs2 base patch for linux-2.6.31
 
 diff --git a/fs/namei.c b/fs/namei.c
-index 967c3db..60c01b1 100644
+index 1f13751..b49c2af 100644
 --- a/fs/namei.c
 +++ b/fs/namei.c
-@@ -1200,7 +1200,7 @@ out:
+@@ -1219,7 +1219,7 @@ out:
   * needs parent already locked. Doesn't follow mounts.
   * SMP-safe.
   */
@@ -13,7 +13,7 @@ index 967c3db..60c01b1 100644
  {
  	int err;
  
-@@ -1210,7 +1210,7 @@ static struct dentry *lookup_hash(struct nameidata *nd)
+@@ -1229,7 +1229,7 @@ static struct dentry *lookup_hash(struct nameidata *nd)
  	return __lookup_hash(&nd->last, nd->path.dentry, nd);
  }
  
@@ -23,10 +23,10 @@ index 967c3db..60c01b1 100644
  {
  	unsigned long hash;
 diff --git a/fs/splice.c b/fs/splice.c
-index 666953d..35beccd 100644
+index 73766d2..0cb8873 100644
 --- a/fs/splice.c
 +++ b/fs/splice.c
-@@ -905,8 +905,8 @@ EXPORT_SYMBOL(generic_splice_sendpage);
+@@ -1057,8 +1057,8 @@ EXPORT_SYMBOL(generic_splice_sendpage);
  /*
   * Attempt to initiate a splice from pipe to file.
   */
@@ -35,9 +35,9 @@ index 666953d..35beccd 100644
 +long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
 +		    loff_t *ppos, size_t len, unsigned int flags)
  {
- 	int ret;
- 
-@@ -929,9 +929,9 @@ static long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
+ 	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *,
+ 				loff_t *, size_t, unsigned int);
+@@ -1084,9 +1084,9 @@ static long do_splice_from(struct pipe_inode_info *pipe, struct file *out,
  /*
   * Attempt to initiate a splice from a file to a pipe.
   */
@@ -48,13 +48,13 @@ index 666953d..35beccd 100644
 +		  struct pipe_inode_info *pipe, size_t len,
 +		  unsigned int flags)
  {
- 	int ret;
- 
+ 	ssize_t (*splice_read)(struct file *, loff_t *,
+ 			       struct pipe_inode_info *, size_t, unsigned int);
 diff --git a/include/linux/namei.h b/include/linux/namei.h
-index 518098f..42a5279 100644
+index d870ae2..a49900e 100644
 --- a/include/linux/namei.h
 +++ b/include/linux/namei.h
-@@ -74,6 +74,9 @@ extern struct file *lookup_instantiate_filp(struct nameidata *nd, struct dentry
+@@ -75,6 +75,9 @@ extern struct file *lookup_instantiate_filp(struct nameidata *nd, struct dentry
  extern struct file *nameidata_to_filp(struct nameidata *nd, int flags);
  extern void release_open_intent(struct nameidata *);
  
@@ -65,10 +65,10 @@ index 518098f..42a5279 100644
  extern struct dentry *lookup_one_noperm(const char *, struct dentry *);
  
 diff --git a/include/linux/splice.h b/include/linux/splice.h
-index 5f3faa9..d2f8660 100644
+index 18e7c7c..8393b5c 100644
 --- a/include/linux/splice.h
 +++ b/include/linux/splice.h
-@@ -83,4 +83,10 @@ extern ssize_t splice_to_pipe(struct pipe_inode_info *,
+@@ -82,4 +82,10 @@ extern ssize_t splice_to_pipe(struct pipe_inode_info *,
  extern ssize_t splice_direct_to_actor(struct file *, struct splice_desc *,
  				      splice_direct_actor *);
  

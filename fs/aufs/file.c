@@ -26,26 +26,6 @@
 #include <linux/pagemap.h>
 #include "aufs.h"
 
-/*
- * a dirty trick for handling deny_write_access().
- * because FMODE_EXEC flag is not passed to f_op->open(),
- * set it to file->private_data temporary.
- */
-void au_store_oflag(struct nameidata *nd, struct inode *inode)
-{
-	if (nd
-	    /* && !(nd->flags & LOOKUP_CONTINUE) */
-	    && (nd->flags & LOOKUP_OPEN)
-	    && (nd->intent.open.flags & vfsub_fmode_to_uint(FMODE_EXEC))
-	    && inode
-	    && S_ISREG(inode->i_mode)) {
-		/* suppress a warning in lp64 */
-		unsigned long flags = nd->intent.open.flags;
-		nd->intent.open.file->private_data = (void *)flags;
-		/* smp_mb(); */
-	}
-}
-
 /* drop flags for writing */
 unsigned int au_file_roflags(unsigned int flags)
 {
@@ -64,7 +44,7 @@ struct file *au_h_open(struct dentry *dentry, aufs_bindex_t bindex, int flags,
 	struct super_block *sb;
 	struct au_branch *br;
 	struct path h_path;
-	int err;
+	int err, exec_flag;
 
 	/* a race condition can happen between open and unlink/rmdir */
 	h_file = ERR_PTR(-ENOENT);
@@ -81,9 +61,9 @@ struct file *au_h_open(struct dentry *dentry, aufs_bindex_t bindex, int flags,
 	sb = dentry->d_sb;
 	br = au_sbr(sb, bindex);
 	h_file = ERR_PTR(-EACCES);
-	if (file && (file->f_mode & FMODE_EXEC)
-	    && (br->br_mnt->mnt_flags & MNT_NOEXEC))
-		goto out;
+	exec_flag = flags & vfsub_fmode_to_uint(FMODE_EXEC);
+	if (exec_flag && (br->br_mnt->mnt_flags & MNT_NOEXEC))
+			goto out;
 
 	/* drop flags for writing */
 	if (au_test_ro(sb, bindex, dentry->d_inode))
@@ -107,8 +87,7 @@ struct file *au_h_open(struct dentry *dentry, aufs_bindex_t bindex, int flags,
 	if (IS_ERR(h_file))
 		goto out_br;
 
-	if (file && (file->f_mode & FMODE_EXEC)) {
-		h_file->f_mode |= FMODE_EXEC;
+	if (exec_flag) {
 		err = deny_write_access(h_file);
 		if (unlikely(err)) {
 			fput(h_file);

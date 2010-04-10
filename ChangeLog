@@ -44,6 +44,55 @@ Date:   Wed Mar 31 03:48:24 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 9a8dac1e0e15535ba87b788c98af51d910133695
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 26 22:06:04 2010 +0900
+
+    aufs: tiny, new conf HFSNOTIFY and HINOTIFY
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 568ec06d9f85f4fb633c5626f89c7f4ae1db5f3c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 26 09:09:49 2010 +0900
+
+    aufs: tiny, fix the comment style
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 48b705d5be75fa47d68a5d9502233b925e044e09
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 26 08:11:39 2010 +0900
+
+    aufs: support FSNOTIFY, export functions
+    
+    Since FSNOTIFY is introduced in linux-2.6.31 and INOTIFY is on the list
+    Documentation/feature-removal-schedule.txt, aufs's udba=inotify will be
+    unavailable in the near future.
+    
+    Export FSNOTIFY functions for modules.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 8842b479cb1afb25045554ea19f4ce24a42cd77c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Mar 26 04:32:04 2010 +0900
+
+    aufs: support FSNOTIFY
+    
+    Since FSNOTIFY is introduced in linux-2.6.31 and INOTIFY is on the list
+    Documentation/feature-removal-schedule.txt, aufs's udba=inotify will be
+    unavailable in the near future.
+    
+    This commit introducces a new configuration AUFS_HFSNOTIFY which behaves
+    as a toggle to AUFS_HINOTIFY.
+    - introduce a new file hfsnotify.c
+    - the common routine hnotify.c follows the symbols of FSNOTIFY, so
+      au_hin_conv_mask() is introduced in hinotify.c. this new function
+      convers simbols of INOTIFY into FSNOTIFY's.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 4faae8f0a041f55fb2d00d6ad82486cf0bbeb38c
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Mar 26 02:44:08 2010 +0900
@@ -150,6 +199,14 @@ Date:   Sat Mar 20 16:56:13 2010 +0900
     I don't know why, but several people misunderstand the matching aufs
     branch to linux kernel version.
     Also add a guide about the shutdown script.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit dece7f0fce421044faa9ebd4428bfb8569236653
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Mar 18 01:58:29 2010 +0900
+
+    aufs: tiny, replace au_getname() by __getname_gfp(GFP_NOFS)
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -594,6 +651,35 @@ Date:   Mon Jan 18 23:18:31 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit d063f7182eba24b8a0c3cee33d7af4e215fdb272
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jan 16 03:22:24 2010 +0900
+
+    aufs: tiny, move some declarations
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 0151d47b2856de06b2cea1a3dc2563c16f8f20e1
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jan 16 02:08:48 2010 +0900
+
+    aufs: tiny, add a comment
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit af72b7cfb799232ea639aee6b70761780e542a01
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jan 16 02:01:19 2010 +0900
+
+    aufs: bugfix, protect f_flags by f_lock
+    
+    Cf. the commits
+    	29774cd aufs: support linux-2.6.30-rcN, f_flags
+    	4a56751 aufs: bugfix, protect f_flags by f_lock
+    	0562f63 aufs: remove handling FMODE_EXEC code
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 4a56751e7b80cc2195742614fb777d73f3eb9793
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jan 16 01:04:37 2010 +0900
@@ -615,6 +701,16 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Jan 15 14:25:41 2010 +0900
 
     aufs: cosmetic clean-up for vfsub.c
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 59bd04e29d67ce1301904477bbad0e16fa811feb
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Jan 15 22:41:17 2010 +0900
+
+    aufs stdalone: export cap_file_mmap()
+    
+    It is required when CONFIG_SECURITY is disabled.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -728,6 +824,20 @@ Date:   Sat Jan 2 16:32:31 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 3d6203a320b5d212836f05124a96a165e7490426
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jan 2 13:09:21 2010 +0900
+
+    aufs: recover a merge conflict, the internal file open
+    
+    The commit 5482ca4cb046bf399b605174327c61688d39a21c
+    	"Merge branch 'aufs2-30' into aufs2-31"
+    got conflict fs/aufs/file.c.
+    I might fail recovering it. There left an extra internal file open.
+    Remove it.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 4b70e6f04d4292d8b5ce6cd7ac7371e68eab9175
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jan 2 12:21:03 2010 +0900
@@ -738,6 +848,14 @@ Date:   Sat Jan 2 12:21:03 2010 +0900
     is acquired before ->mmap(). aufs_mmap() has to release it temporary
     with using BKL.
     I don't think it is a good approach, but I don't know other way.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit e5843a8384a3d064b57bccb1d32a3cd7327121a9
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Dec 24 23:52:24 2009 +0900
+
+    aufs: tiny, add 'unlikely' in an error path
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1264,6 +1382,27 @@ Date:   Tue Sep 29 00:57:01 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 0e9cb2f160ea325d5204a1ff53294fee2e1ff224
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 28 13:51:07 2009 +0900
+
+    aufs: tiny, follow the change in linux-2.6.31
+    
+    The magic number for cramfs is define in linux/magic.h now,
+    so fs/aufs/fstype.h doesn't need to include cramfs_fs.h anymore.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit c60af1c74c015cdb2813c601e04180729ecb9d96
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 28 13:49:17 2009 +0900
+
+    aufs: tiny, missing replacement in last commit
+    
+    Forgot replacing one AuWarn macro.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 99cc47b8cbcc31fe5f8e0b6faa8308f96ee42fa9
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Sep 24 01:01:06 2009 +0900
@@ -1285,6 +1424,30 @@ Date:   Thu Sep 24 00:31:14 2009 +0900
     
     Convert "args..." into "...", and "##args" into "##__VA_ARGS__",
     as linux-2.6.28 did.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit fe98ed1c205eff4bb5b7f623885f8f7827ab3e8c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Sep 23 09:06:07 2009 +0900
+
+    aufs: lockdep_off/on() became useless
+    
+    Remove most of lockdep_off/on() call from aufs, due to the change made
+    in mainline.
+    It looks strange for me.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 2e975b2d80914f18f3df0f1525d56189a43384fa
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Sep 18 15:00:26 2009 +0900
+
+    aufs: possible bugfix, sysfs and aufs
+    
+    The previous fix with Big Kernel Lock did not work expectedly.
+    Instead, sysaufs_si_show() gives up its operation when it failed to
+    acquire read lock.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1357,6 +1520,28 @@ Date:   Thu Sep 17 00:21:07 2009 +0900
     mmap	mmap	fi_write_lock
     mmap	pf	should not happen. if it happens, it should be safe.
     pf	pf	the new mutex
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 062051b0253df5d1031a59264fcd6766ef002307
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 14 20:10:09 2009 +0900
+
+    aufs: re-start supporting IMA (limited)
+    
+    The bug in IMA was fixed in linux-2.6.31, and aufs re-starts supporting
+    it. But changing the branch permission RW --> RO will make IMA to
+    produce some incorrect messages, since IMA doesn't support
+    mark_files_ro() in emergency remount. When IMA becomes to support it,
+    aufs will support IMA fully.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 15b72fe903e179a4d217d99f60aaf2560e3467ff
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 14 14:17:36 2009 +0900
+
+    aufs: version string for aufs2-31
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1663,6 +1848,18 @@ Date:   Fri Aug 21 15:54:52 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 63ccc00cea68737ae1df5d88002793e6fec383f0
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat May 9 13:40:13 2009 +0900
+
+    aufs: tiny, Stop supporting ecryptfs
+    
+    Since no aufs user uses it as a branch.
+    
+    (Forgot to merge)
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit eb0cb778795e2e00862c8bcc7197f13df2ae6c28
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Aug 21 02:44:37 2009 +0900
@@ -1747,6 +1944,15 @@ Date:   Wed Jul 29 14:22:39 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 1fe27fb98d4cca89a3b62541ec11a76cf5c48996
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 29 00:13:17 2009 +0900
+
+    Revert "aufs: stop supporting IMA"
+    
+    This reverts commit d71b0d1d039a7373d923cd20104d6893049859c7.
+    Since the bug of IMA is fixed in linux-2.6.31-rc2, aufs can support IMA.
+
 commit d71b0d1d039a7373d923cd20104d6893049859c7
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jul 29 00:11:53 2009 +0900
@@ -1755,6 +1961,18 @@ Date:   Wed Jul 29 00:11:53 2009 +0900
     
     Since the bugfix of IMA is not backported into linux-2.6.30, stop
     entirely supporting IMA.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 609da5a3567747160234144db60122612d1304e7
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 29 00:03:03 2009 +0900
+
+    aufs: linux-2.6.31-rcN, support IMA
+    
+    Since IMA was fixed in linux-2.6.31-rc2, support it in aufs too.
+    - stop calling ima_path_check(), instead call the new function
+      ima_counts_get() after internal dentry_open() call.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1767,6 +1985,17 @@ Date:   Tue Jul 28 23:40:26 2009 +0900
     IMA in linux-2.6.30 is broken and fixed in linux-2.6.31-rc2.
     Until the fix is backported to 2.6.30, make it an error at compile time.
     
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit ec38dd1c7fd6fb7c368be98835be5a80a890a155
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jul 25 02:03:11 2009 +0900
+
+    aufs: bugfix, include files in debug.h
+    
+    Just follow the changes made by upstream.
+    
+    Reported-by: Alan Zheng <machinecat1666@gmail.com>
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
 commit 049de2b1a34c3145ea82a2fe92c286393c4f6310
@@ -2103,6 +2332,16 @@ Date:   Wed Jul 15 02:56:00 2009 +0900
     This reverts commit c35679c7d7e369ba5aa86149df726c21fca5ab8a.
     Since this is for aufs debugging purpose only. User may not be interested.
 
+commit e7655518276192510e7a98a36286aa5d7f816112
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 15 23:41:54 2009 +0900
+
+    aufs: 2.6.31-rcN, tiny, include nsproxy.h
+    
+    Follow the chnages made by upstream.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 68e382216ede29f432e57ac75c370edb5286c399
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jul 11 10:49:42 2009 +0900
@@ -2209,6 +2448,15 @@ Date:   Wed Jun 24 19:57:17 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit faf12180300e725f83fce09b7ed4bddedb298c9c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jun 24 16:36:34 2009 +0900
+
+    Revert "aufs standalone: export symbols for aufs module only"
+    
+    This reverts commit d0196d4cda0a4c622554b37638eee36b445103dd.
+    It was a bad approach. Now export symbols unconditionally.
+
 commit c1d75ee0b58940c827fc0894446d8d7e8f68afa1
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jun 24 16:29:53 2009 +0900
@@ -2233,6 +2481,30 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Jun 20 15:48:26 2009 +0900
 
     aufs: tiny, revise how to build
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 1ee8093d49fc51750eed85f28ee60142ef128dc0
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jun 20 01:44:30 2009 +0900
+
+    aufs: tiny, remove a meaningless comment
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit bfff6754d4fea7c826df856a2687b9a996cb2572
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jun 20 00:48:29 2009 +0900
+
+    aufs: tiny, header files for standalone version
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit d0196d4cda0a4c622554b37638eee36b445103dd
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Jun 19 23:56:18 2009 +0900
+
+    aufs standalone: export symbols for aufs module only
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2262,6 +2534,38 @@ Date:   Fri Jun 19 11:04:52 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 0169266e0dac23752d9d5a0531fc9232362d17d0
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Jun 18 14:57:13 2009 +0900
+
+    aufs: tiny, revise supporting IMA
+    
+    IMA needs more work since simple tests (without aufs) reports several
+    incorrect IMA messages.
+    I am afraid IMA is not usable regradless aufs.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 807583180d02c01709693e24fdb059e5ef60320b
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Jun 18 14:57:13 2009 +0900
+
+    aufs: tiny, revise supporting IMA
+    
+    IMA needs more work since simple tests (without aufs) reports several
+    incorrect IMA messages.
+    I am afraid IMA is not usable regradless aufs.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 78131c7e317993379efc34dbd1884f35cd8d98f9
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Jun 18 14:53:07 2009 +0900
+
+    aufs: 2.6.31-rcN, replace fsync_super() by sync_filesystem()
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit d6b6872d9b78314d604520ba527942ca752ab232
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Jun 17 12:02:43 2009 +0900
@@ -2285,6 +2589,14 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Jun 15 10:04:52 2009 +0900
 
     aufs: support 2.6.30, page_mkwrite
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 72053c8878846198f08ce6dbd3dd2e1265ae8439
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Jun 15 09:10:42 2009 +0900
+
+    aufs: tiny, fix an editing failure
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2400,6 +2712,17 @@ Date:   Mon May 18 08:01:45 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit badfd949ba17cde83c3d9ba3174dc414b330fdf8
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri May 15 11:01:47 2009 +0900
+
+    aufs: support linux-2.6.30-rcN
+    
+    - the argument of ->page_mkwrite() chages.
+    - support fmode_t.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 925a836876513343c5a234c1f702bf7f3f72e6ff
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri May 15 00:20:12 2009 +0900
@@ -2466,6 +2789,25 @@ Date:   Tue May 12 15:19:26 2009 -0700
     
     Signed-off-by: Joonwoo Park <joonwpark81@gmail.com>
 
+commit 0562f63f7f98a0d1db23e1f5821b253aef481d48
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon May 11 10:07:38 2009 +0900
+
+    aufs: remove handling FMODE_EXEC code
+    
+    By the commit 6e8341a11eb21826b7192d0bb88cb5b44900a9af
+    "Switch open_exec() and sys_uselib() to do_open_filp()",
+    FMODE_EXEC flag is passed to struct file.
+    Remove a long-lived dirty trick in aufs.
+    
+    - remove au_store_oflag().
+    - test ->f_flags instead of f_mode.
+    - stop storing FMODE_EXEC in file->private_data and re-setting it.
+    - remove 'exec_flag' parameter from vfsub_dentry_open().h and
+      vfsub_ima_mask().
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit d2c3e73ea8b469cd5b3af12da89ab42cc8639af5
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue May 12 12:00:43 2009 +0900
@@ -2493,6 +2835,25 @@ Date:   Mon May 11 23:43:44 2009 +0900
     - move au_igrab() from inode.h to inode.c.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit c6ad1c9b6635c23c017ca37c6aec15ce3276fbf3
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat May 9 13:40:13 2009 +0900
+
+    aufs: tiny, Stop supporting ecryptfs
+    
+    Since no aufs user uses it as a branch.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit ac7cbfc0922f812d515358ee9f2e4e72b32b5de0
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat May 9 13:37:47 2009 +0900
+
+    Revert "fix ecryptfs original bug to test aufs2"
+    
+    This reverts commit abe17d4a4b7691742ae7c7f1ddcbd2dd1927e6fd.
+    Stop supporting ecryptfs sinoce no aufs user uses it as a branch.
 
 commit 07ddf542918274a01fd6f8d7bd70d850d3a538d6
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
@@ -2586,11 +2947,48 @@ Date:   Mon May 4 15:24:32 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit ac34732e859bcffd8363d21a1999f9941d8c68f8
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Apr 27 15:11:17 2009 +0900
+
+    aufs: remove temporary workaround for a bug in NFSD readdir
+    
+    In linux-2.6.30-rc3 the bug is fixed, and remove temporary workaround in
+    aufs. A check for i_mutex is introcued in lookup_one_len() too. But it
+    is by WARN_ON_ONCE(), so I keep IMustLock() in vfsub_lookup_one_len().
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 642c5b8fbffc9adcd306e9e44bc09512d5329794
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Apr 24 14:34:17 2009 +0900
 
     aufs: add a donor
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit fdc8c21f10c3547a60d8461900c3e2a62142fd87
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 16 22:48:21 2009 +0900
+
+    aufs: support linux-2.6.30-rcN, IMA
+    
+    Call ima_path_check() instead of ima_shm_file().
+    Call ima_file_mmap() before mmap.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit d4b149a1e797b4879a2b674021df8a812d65d3a1
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 16 22:47:29 2009 +0900
+
+    aufs: support linux-2.6.30-rcN, IMA
+    
+    Call ima_path_check() instead of ima_shm_file().
+    Call ima_file_mmap() before mmap.
+    - add 'exec_flag' to vfsub_dentry_open().
+    - a new function vfsub_ima_mask() for ima_path_check().
+    - a new function au_prot_conv() for IMA.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2642,6 +3040,82 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Apr 11 12:00:46 2009 +0900
 
     aufs: tiny: documents
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit aa24149e869a19d7613ac3c6b4b0aefd5a2894ca
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Apr 10 12:14:04 2009 +0900
+
+    aufs: tiny: version string
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 0d0e16ff2b16472eba27c2c01985f30bf2b2a52e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Apr 10 00:14:01 2009 +0900
+
+    aufs: tiny: version string
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit c45ac8bde47e110480c041d514ae8e1433edc9cc
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 9 19:15:14 2009 +0900
+
+    aufs: support linux-2.6.30, IMA
+    
+    Supports "Integrity Measurement Architecture(IMA)" in 2.6.30.
+    Since IMA checks the number of file open, aufs needs to adjust it as
+    shmfs does.
+    But IMA seems to need more work since NFSD doesn't support it yet.
+    
+    - export ima_shm_check() for modules.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 08d0e1b3e380ea7446066d53a55324238de6910d
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 9 18:25:53 2009 +0900
+
+    aufs: support linux-2.6.30, temporary workaround for relatime option
+    
+    The mount option 'relatime' becomes set by default.
+    Although it is VFS option, mount(8) may pass it to aufs (or all
+    filesystems) since old version of mount(8) may not know about
+    relatime. When common VFS option is passed to aufs, aufs does NOT handle
+    it and will return an error as "unknown option".
+    It may be unconvenient for users. So here is a temporary workaround to
+    ignore relatime silently.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 1ac7aa726828469fe4972210a834992cbb3cafd4
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 9 18:17:21 2009 +0900
+
+    aufs: support linux-2.6.30, xino for nilfs
+    
+    The aufs xino files are not suitable for the new filesystem nilfs.
+    Forbid it.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a9b9a9ffe592f595fc499dcf5d79be4e06fc0cee
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Apr 9 18:13:59 2009 +0900
+
+    aufs: support linux-2.6.30, IMA
+    
+    Supports "Integrity Measurement Architecture(IMA)" in 2.6.30.
+    Since IMA checks the number of file open, aufs needs to adjust it as
+    shmfs does.
+    But IMA seems to need more work since NFSD doesn't support it yet.
+    
+    - new wrapper function vfsub_dentry_open() for dentry_open() which calls
+      ima_shm_check().
+    - vfsub_filp_open() calls ima_shm_check() too.
+    - minor re-arrangement for vfsub.h.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2873,6 +3347,16 @@ Date:   Mon Mar 30 15:04:51 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 29774cd800a687ae1a53e290f42d750b4390d34d
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Mar 30 13:53:33 2009 +0900
+
+    aufs: support linux-2.6.30-rcN, f_flags
+    
+    Protect file->f_flags by a new spinlock file->f_f_lock.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 200bdb23a671cff6da1a989c462ca75821c72ee6
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Mar 30 13:39:23 2009 +0900
@@ -2943,6 +3427,14 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Mar 25 22:53:40 2009 +0900
 
     aufs: fix missing delcaration
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 38d7dba73c4b1d5e6be64d4b719bbca0c362b2bd
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Mar 25 22:42:30 2009 +0900
+
+    aufs: fix the version string
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 

@@ -66,6 +66,19 @@ static int h_permission(struct inode *h_inode, int mask,
 		err = security_inode_permission(h_inode, mask);
 	}
 
+#if 0
+	if (!err) {
+		/* todo: do we need to call ima_path_check()? */
+		struct path h_path = {
+			.dentry	=
+			.mnt	= h_mnt
+		};
+		err = ima_path_check(&h_path,
+				     mask & (MAY_READ | MAY_WRITE | MAY_EXEC),
+				     IMA_COUNT_LEAVE);
+	}
+#endif
+
  out:
 	return err;
 }
@@ -144,12 +157,7 @@ static struct dentry *aufs_lookup(struct inode *dir, struct dentry *dentry,
 	int err, npositive;
 	aufs_bindex_t bstart;
 
-	/* temporary workaround for a bug in NFSD readdir */
-	if (!au_test_nfsd(current))
-		IMustLock(dir);
-	else
-		WARN_ONCE(!mutex_is_locked(&dir->i_mutex),
-			  "a known problem of NFSD readdir since 2.6.28\n");
+	IMustLock(dir);
 
 	sb = dir->i_sb;
 	si_read_lock(sb, AuLock_FLUSH);
@@ -193,7 +201,6 @@ static struct dentry *aufs_lookup(struct inode *dir, struct dentry *dentry,
 	ret = d_splice_alias(inode, dentry);
 	if (unlikely(IS_ERR(ret) && inode))
 		ii_write_unlock(inode);
-	au_store_oflag(nd, inode);
 
  out_unlock:
 	di_write_unlock(dentry);
@@ -812,7 +819,7 @@ static void *aufs_follow_link(struct dentry *dentry, struct nameidata *nd)
 	mm_segment_t old_fs;
 
 	err = -ENOMEM;
-	buf = au_getname();
+	buf = __getname_gfp(GFP_NOFS);
 	if (unlikely(!buf))
 		goto out;
 

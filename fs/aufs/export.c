@@ -24,6 +24,7 @@
 #include <linux/file.h>
 #include <linux/mnt_namespace.h>
 #include <linux/namei.h>
+#include <linux/nsproxy.h>
 #include <linux/random.h>
 #include "aufs.h"
 
@@ -352,7 +353,7 @@ static struct dentry *au_lkup_by_ino(struct path *path, ino_t ino,
 		goto out;
 
 	dentry = ERR_PTR(-ENOMEM);
-	arg.name = au_getname();
+	arg.name = __getname_gfp(GFP_NOFS);
 	if (unlikely(!arg.name))
 		goto out_file;
 	arg.ino = ino;

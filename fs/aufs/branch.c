@@ -47,9 +47,9 @@ static void au_br_do_free(struct au_branch *br)
 	}
 
 	/* some filesystems acquire extra lock */
-	lockdep_off();
+	/* lockdep_off(); */
 	mntput(br->br_mnt);
-	lockdep_on();
+	/* lockdep_on(); */
 
 	kfree(wbr);
 	kfree(br);
@@ -810,6 +810,14 @@ int au_br_del(struct super_block *sb, struct au_opt_del *del, int remount)
  * change a branch permission
  */
 
+static void au_warn_ima(void)
+{
+#ifdef CONFIG_IMA
+	/* since it doesn't support mark_files_ro() */
+	pr_warning("RW -> RO makes IMA to produce wrong message");
+#endif
+}
+
 static int do_need_sigen_inc(int a, int b)
 {
 	return au_br_whable(a) && !au_br_whable(b);
@@ -883,6 +891,8 @@ static int au_br_mod_files_ro(struct super_block *sb, aufs_bindex_t bindex)
 	}
 
 	err = 0;
+	if (n)
+		au_warn_ima();
 	for (ul = 0; ul < n; ul++) {
 		/* todo: already flushed? */
 		/* cf. fs/super.c:mark_files_ro() */

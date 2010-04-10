@@ -25,7 +25,6 @@
 
 #ifdef __KERNEL__
 
-#include <linux/cramfs_fs.h>
 #include <linux/fs.h>
 #include <linux/magic.h>
 #include <linux/romfs_fs.h>
@@ -302,6 +301,15 @@ static inline int au_test_debugfs(struct super_block *sb __maybe_unused)
 #endif
 }
 
+static inline int au_test_nilfs(struct super_block *sb __maybe_unused)
+{
+#if defined(CONFIG_NILFS) || defined(CONFIG_NILFS_MODULE)
+	return sb->s_magic == NILFS_SUPER_MAGIC;
+#else
+	return 0;
+#endif
+}
+
 static inline int au_test_hfsplus(struct super_block *sb __maybe_unused)
 {
 #if defined(CONFIG_HFSPLUS_FS) || defined(CONFIG_HFSPLUS_FS_MODULE)
@@ -327,6 +335,7 @@ static inline int au_test_fs_unsuppoted(struct super_block *sb)
 		|| au_test_debugfs(sb)
 		|| au_test_securityfs(sb)
 		|| au_test_xenfs(sb)
+		|| au_test_ecryptfs(sb)
 		/* || !strcmp(au_sbtype(sb), "unionfs") */
 		|| au_test_aufs(sb); /* will be supported in next version */
 }
@@ -463,7 +472,8 @@ static inline int au_test_fs_bad_xino(struct super_block *sb)
 #endif
 		/* don't want unnecessary work for xino */
 		|| au_test_aufs(sb)
-		|| au_test_ecryptfs(sb);
+		|| au_test_ecryptfs(sb)
+		|| au_test_nilfs(sb);
 }
 
 static inline int au_test_fs_trunc_xino(struct super_block *sb)
