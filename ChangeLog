@@ -194,6 +194,14 @@ Date:   Thu Mar 11 18:17:26 2010 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit b3d927ed71ceab0adb37d5d353e57602cc491292
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Mar 11 18:00:35 2010 +0900
+
+    aufs: tiny, make aufs_dop const
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit e8f8f1b8d7a8b63c7132c4be1fe1d1c351d8f8f4
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Mar 11 17:41:09 2010 +0900
@@ -207,6 +215,17 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Wed Mar 10 03:44:14 2010 +0900
 
     aufs: tiny, add a comment
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 8200bcab57f364bcf4f695bb59910fe921d9bd88
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 9 04:52:38 2010 +0900
+
+    aufs: follow the changes in upstream, mutex_set_owner()
+    
+    debug_mutex_set_owner() was renamed to mutex_set_owner(), and becase
+    static inlined function.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -572,6 +591,22 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Jan 18 23:18:31 2010 +0900
 
     aufs: tiny, a typo in a document
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 4a56751e7b80cc2195742614fb777d73f3eb9793
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Jan 16 01:04:37 2010 +0900
+
+    aufs: bugfix, protect f_flags by f_lock
+    
+    The commit
+    	29774cd 10 months ago aufs: support linux-2.6.30-rcN, f_flags
+    should be applied to aufs2-30 branch, but I put it aufs2-31
+    accidentally.
+    This fix refines the past commit by introducing a new inlined function
+    vfsub_file_flags(), and call it from the recently added function
+    au_do_open_sp().
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1660,6 +1695,14 @@ Date:   Fri Aug 21 02:24:49 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit d6e2b11100f9876901389784654206401d59c73b
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Aug 1 17:11:00 2009 +0900
+
+    aufs: tiny, modify a message string
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 4846a34b943618d42a40bfed260f9a9037d6fbae
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Aug 1 17:01:46 2009 +0900
@@ -1691,6 +1734,38 @@ Date:   Thu Jul 30 02:54:26 2009 +0900
     commit 221cf7294ea8045ff043e26e6864708f001dc3ee
     "aufs: tiny, reduce the stack usage"
     introduced a memory leak bug.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a37e477b0f3cf6390c636c09bdb177ad51977c20
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 29 14:22:39 2009 +0900
+
+    aufs: tiny, modify a message
+    
+    Since IMA in linux-2.6.31-rcN is still buggy, remove "try 2.6.31".
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit d71b0d1d039a7373d923cd20104d6893049859c7
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jul 29 00:11:53 2009 +0900
+
+    aufs: stop supporting IMA
+    
+    Since the bugfix of IMA is not backported into linux-2.6.30, stop
+    entirely supporting IMA.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit b3292dba861baff5d7f5e8e0f30ddca724f9cb7c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Jul 28 23:40:26 2009 +0900
+
+    aufs: make it an error when IMA is enabled
+    
+    IMA in linux-2.6.30 is broken and fixed in linux-2.6.31-rc2.
+    Until the fix is backported to 2.6.30, make it an error at compile time.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -2177,6 +2252,24 @@ Date:   Fri Jun 19 17:33:54 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 6fb2bd0123071ceef3937a9b83b87e93148a41e5
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Fri Jun 19 11:04:52 2009 +0900
+
+    aufs: negative support IMA in 2.6.30
+    
+    Warn about IMA at modifying branch permission.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit d6b6872d9b78314d604520ba527942ca752ab232
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Wed Jun 17 12:02:43 2009 +0900
+
+    aufs: tiny, version string
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 9c94f4d725414b9caac0e7df1bbb5a2ae96c7cac
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Jun 15 16:00:16 2009 +0900
@@ -2184,6 +2277,14 @@ Date:   Mon Jun 15 16:00:16 2009 +0900
     aufs: support linux-2.6.28
     
     Forgot to remove re-difining DEBUGFS_MAGIC.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a46eedf43f9b32aae52459d5817e87e5728c2439
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Jun 15 10:04:52 2009 +0900
+
+    aufs: support 2.6.30, page_mkwrite
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 

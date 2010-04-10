@@ -419,7 +419,7 @@ static int aufs_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 	return err;
 }
 
-static int aufs_page_mkwrite(struct vm_area_struct *vma, struct page *page)
+static int aufs_page_mkwrite(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	int err;
 	static DECLARE_WAIT_QUEUE_HEAD(wq);
@@ -434,7 +434,7 @@ static int aufs_page_mkwrite(struct vm_area_struct *vma, struct page *page)
 
 	mutex_lock(&finfo->fi_vm_mtx);
 	vma->vm_file = h_file;
-	err = finfo->fi_h_vm_ops->page_mkwrite(vma, page);
+	err = finfo->fi_h_vm_ops->page_mkwrite(vma, vmf);
 	au_reset_file(vma, file);
 	mutex_unlock(&finfo->fi_vm_mtx);
 	wake_up(&wq);
@@ -665,7 +665,7 @@ static int aufs_mmap(struct file *file, struct vm_area_struct *vma)
 	if (unlikely(err))
 		goto out;
 	finfo = au_fi(file);
-	debug_mutex_set_owner(&finfo->fi_mmap, current_thread_info());
+	mutex_set_owner(&finfo->fi_mmap);
 
 	h_dentry = args.h_file->f_dentry;
 	if (!args.mmapped && au_test_fs_bad_mapping(h_dentry->d_sb)) {
