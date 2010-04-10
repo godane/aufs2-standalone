@@ -1,3 +1,16 @@
+commit ba8f448c3c5da969b4b51503a7ac0015785bac6c
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Apr 3 16:37:36 2010 +0900
+
+    ifdef __KERNEL__ for kernel.h
+    
+    For those who doesn't run "make headers_install" and build the module
+    out of kernel source tree.
+    Since linux-2.6.32, include/linux/kernel.h warns about being included
+    from userspace.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 8d462ecd47082b966339a0620b25ada5b9800bfc
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Apr 1 22:06:18 2010 +0900
@@ -179,6 +192,14 @@ Date:   Thu Mar 25 23:01:51 2010 +0900
     
     Actually this commit is unnecessary for aufs2-30 and earlier
     branches. But it makes easier to manage source files and does no harm.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 8c7f6e6d847b04f0daaa752e911185abff48c784
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Mar 23 01:34:53 2010 +0900
+
+    aufs: support i_op->check_acl()
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1139,6 +1160,22 @@ Date:   Mon Dec 7 17:25:16 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 7e878f057d2ca55a7dacc9906d9ee108598d0c7e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Dec 7 14:17:17 2009 +0900
+
+    aufs: version string for aufs2-32
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit dd3473ef40c5e8560cf7c3631fa34c78b3087343
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Dec 7 13:38:52 2009 +0900
+
+    aufs: version string for aufs2-32
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 2a119c29c8bb5f9953d2866450e5fe13ea88520f
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Sat Dec 5 11:05:06 2009 +0900
@@ -1325,6 +1362,16 @@ Date:   Thu Oct 1 15:04:50 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 1a75a1975b8544a84dd8ab47c7767cf826c8bddc
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Thu Oct 1 13:17:47 2009 +0900
+
+    aufs: debugging address_space_operations
+    
+    Implement new ->error_remove_page operation for debugging.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit e811fc13e96b33ef01970c0ded753f842471b6ed
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Thu Oct 1 00:55:07 2009 +0900
@@ -1349,6 +1396,14 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Sep 29 17:10:49 2009 +0900
 
     aufs: tiny, make diff(1) quiet
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 3c66df8ef2a43c8272df263e035090bf14bb1639
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Tue Sep 29 16:43:01 2009 +0900
+
+    aufs: tiny, add noinline_for_stack for some functions
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1379,6 +1434,29 @@ Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Tue Sep 29 00:57:01 2009 +0900
 
     aufs: tiny, re-order the configurations
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit ddf151e6f09b7bcb29b29ed3b2b5d4d9d25148df
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 28 14:09:12 2009 +0900
+
+    aufs: linux-2.6.32-rcN, const-antify vm_ops in struct vm_area_struct
+    
+    The vm_ops struct vm_area_struct becomes 'const', so aufs has to apply
+    type-cast in order to stop the compiler's warning.
+    But I don't think it is a good approach.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a7edfddd47f3413493fcb24642d3a8cce67f05d6
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 28 14:06:52 2009 +0900
+
+    aufs: linux-2.6.32-rcN, RAMFS_MAGIC
+    
+    The definition of the magic number for ramfs is moved into linux/magic.h now,
+    so fs/aufs/magic.mk doesn't need to define it by itself.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1439,6 +1517,24 @@ Date:   Wed Sep 23 09:06:07 2009 +0900
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
+commit 7b1dbf620961e476c7ebd802db92da3e35dac0dd
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 21 13:05:45 2009 +0900
+
+    aufs: tiny, failure in last commit
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit aae5520ee1f62f52e2d4cfb4d253f7e90f68453e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sun Sep 20 01:26:17 2009 +0900
+
+    aufs: temp ci for lockdep
+    
+    As previous commit, Disable most of lockdep_off/on().
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
 commit 2e975b2d80914f18f3df0f1525d56189a43384fa
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Fri Sep 18 15:00:26 2009 +0900
@@ -1448,6 +1544,17 @@ Date:   Fri Sep 18 15:00:26 2009 +0900
     The previous fix with Big Kernel Lock did not work expectedly.
     Instead, sysaufs_si_show() gives up its operation when it failed to
     acquire read lock.
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit a15a48bea836d80b8aa9c19f769b26f3f81acbf4
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Sat Sep 19 15:43:32 2009 +0900
+
+    aufs: temp ci for lockdep
+    
+    I don't know why but some lockdep_off/on() caused a warning about
+    scheduling. Disable some of them temporary.
     
     Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
 
@@ -1540,6 +1647,14 @@ Date:   Mon Sep 14 20:10:09 2009 +0900
 commit 15b72fe903e179a4d217d99f60aaf2560e3467ff
 Author: J. R. Okajima <hooanon05@yahoo.co.jp>
 Date:   Mon Sep 14 14:17:36 2009 +0900
+
+    aufs: version string for aufs2-31
+    
+    Signed-off-by: J. R. Okajima <hooanon05@yahoo.co.jp>
+
+commit 54c9205bdcd65ecf8af041467c434516b611c88e
+Author: J. R. Okajima <hooanon05@yahoo.co.jp>
+Date:   Mon Sep 14 13:05:03 2009 +0900
 
     aufs: version string for aufs2-31
     
